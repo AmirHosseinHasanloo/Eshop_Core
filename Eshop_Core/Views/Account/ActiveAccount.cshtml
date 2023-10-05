@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "فعالسازی حساب";
+}
+
+<div class="alert alert-success text-center shadow-lg col-md-12">
+    <p>
+        @ViewData["UserName"] عزیز حساب شما با موفقیت فعال شد
+    </p>
+    <p>
+        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-secondary">ورود به حساب</a>
+    </p>
+</div>
+
