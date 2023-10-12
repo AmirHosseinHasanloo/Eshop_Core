@@ -2,24 +2,39 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using DataLayer.Models;
 
 namespace DataLayer
 {
     public class EshopContext : DbContext
     {
-        private readonly string ConnectionString = "Data Source=.;Initial Catalog=EshopCore_DB;User ID=sa;Password=asadasad";
-
-        public EshopContext(DbContextOptions options) : base(options)
+        public EshopContext(DbContextOptions<EshopContext> options) : base(options)
         {
-            //From the context, I understood from which database and in what direction I made it and am using it
-            var DbContextBuilderOptions = new DbContextOptionsBuilder<EshopContext>();
-            DbContextBuilderOptions.UseSqlServer(ConnectionString);
+
         }
 
+        #region User
 
-        public virtual DbSet<ProductGroups> ProductGroups { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
-        public virtual DbSet<Roles> Roles { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+
+        #endregion
+
+        #region MyRegion
+
+        public DbSet<Feature> Features { get; set; }
+        public DbSet<ProductFeature> ProductFeatures { get; set; }
+
+        #endregion
+
+        #region Product
+
+        public DbSet<ProductGroup> ProductGroups { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductGallery> ProductGalleries { get; set; }
+        public DbSet<ProductTag> ProductTags { get; set; }
+        public DbSet<SelectedGroup> SelectedGroups { get; set; }
+        #endregion
 
     }
 }

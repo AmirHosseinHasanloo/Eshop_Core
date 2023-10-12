@@ -14,29 +14,29 @@ namespace DataLayer
             _context = context;
         }
 
-        private EshopGenericRepository<ProductGroups> _ProductGroupsRepository;
+        private EshopGenericRepository<ProductGroup> _ProductGroupsRepository;
 
-        public EshopGenericRepository<ProductGroups> ProductGroupsRepository
+        public EshopGenericRepository<ProductGroup> ProductGroupsRepository
         {
             get
             {
                 if (_ProductGroupsRepository == null)
                 {
-                    _ProductGroupsRepository = new EshopGenericRepository<ProductGroups>(_context);
+                    _ProductGroupsRepository = new EshopGenericRepository<ProductGroup>(_context);
                 }
                 return _ProductGroupsRepository;
             }
         }
       
-        private EshopGenericRepository<Users> _UsersRepository;
+        private EshopGenericRepository<User> _UsersRepository;
 
-        public EshopGenericRepository<Users> UsersRepository
+        public EshopGenericRepository<User> UsersRepository
         {
             get
             {
                 if (_ProductGroupsRepository == null)
                 {
-                    _UsersRepository = new EshopGenericRepository<Users>(_context);
+                    _UsersRepository = new EshopGenericRepository<User>(_context);
                 }
                 return _UsersRepository;
             }

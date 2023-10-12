@@ -9,9 +9,9 @@ namespace DataLayer
         bool IsExistsUserByEmail(string email);
         bool IsTrueHashedPassword(string password);
         bool IsActiveUser(string email);
-        Users GetUserForLogin(string email, string password); 
-        Users GetUserForActiveAccount(string activecode);
-        Users GetUserForgotPassword(string email);
+        User GetUserForLogin(string email, string password); 
+        User GetUserForActiveAccount(string activecode);
+        User GetUserForgotPassword(string email);
         void Save();
     }
 }

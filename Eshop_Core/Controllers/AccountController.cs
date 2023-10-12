@@ -44,7 +44,7 @@ namespace Eshop_Core.Controllers
                 {
                     string HashPassword = BitConverter.ToString(new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(register.Password))).Replace("-", "");
 
-                    Users user = new Users
+                    User user = new User
                     {
                         UserName = register.UserName,
                         RoleId = 3,

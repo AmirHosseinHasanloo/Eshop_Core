@@ -4,6 +4,7 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EshopContext))]
-    partial class EshopContextModelSnapshot : ModelSnapshot
+    [Migration("20231012112025_Mig_ProductTBs")]
+    partial class Mig_ProductTBs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,6 +60,9 @@ namespace DataLayer.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ProductGroupGroupId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ShortDescription")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -73,6 +79,8 @@ namespace DataLayer.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.HasKey("ProductId");
+
+                    b.HasIndex("ProductGroupGroupId");
 
                     b.ToTable("Products");
                 });
@@ -165,12 +173,15 @@ namespace DataLayer.Migrations
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ProductGroupGroupId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupId");
+                    b.HasIndex("ProductGroupGroupId");
 
                     b.HasIndex("ProductId");
 
@@ -270,6 +281,15 @@ namespace DataLayer.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("DataLayer.Models.Product", b =>
+                {
+                    b.HasOne("DataLayer.ProductGroup", "ProductGroup")
+                        .WithMany("Products")
+                        .HasForeignKey("ProductGroupGroupId");
+
+                    b.Navigation("ProductGroup");
+                });
+
             modelBuilder.Entity("DataLayer.Models.ProductFeature", b =>
                 {
                     b.HasOne("DataLayer.Models.Feature", "Feature")
@@ -315,9 +335,7 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.ProductGroup", "ProductGroup")
                         .WithMany("SelectedGroups")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductGroupGroupId");
 
                     b.HasOne("DataLayer.Models.Product", "Product")
                         .WithMany("SelectedGroups")
@@ -359,6 +377,8 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.ProductGroup", b =>
                 {
+                    b.Navigation("Products");
+
                     b.Navigation("SelectedGroups");
                 });
 

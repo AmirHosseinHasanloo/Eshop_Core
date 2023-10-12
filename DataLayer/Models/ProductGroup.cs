@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient.Server;
+﻿using DataLayer.Models;
+using Microsoft.Data.SqlClient.Server;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace DataLayer
 {
-    public class ProductGroups
+    public class ProductGroup
     {
         [Key]
         public int GroupId { get; set; }
@@ -17,6 +18,6 @@ namespace DataLayer
         public int? ParentId { get; set; }
 
         // Navigation Properties
-      
+        public ICollection<SelectedGroup> SelectedGroups { get; set; }
     }
 }

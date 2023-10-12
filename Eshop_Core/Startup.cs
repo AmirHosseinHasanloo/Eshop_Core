@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer.Repositories;
+using DataLayer.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Eshop_Core
@@ -39,6 +41,7 @@ namespace Eshop_Core
 
             #region IoC
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
 
             services.AddTransient<IViewRenderService, RenderViewToString>();
 
@@ -56,6 +59,7 @@ namespace Eshop_Core
 
             #endregion
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

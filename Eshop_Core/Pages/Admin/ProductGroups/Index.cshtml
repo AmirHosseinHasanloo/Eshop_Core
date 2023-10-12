@@ -1,0 +1,57 @@
+﻿@page
+@model Eshop_Core.Pages.Admin.ProductGroups.IndexModel
+@{
+    ViewData["Title"] = "لیست گروه محصولات";
+}
+
+<div class="clearfix"></div>
+<br />
+<p>
+    <a class="btn btn-success" href="ProductGroups/Create">افزودن سرگروه محصول</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                سرگروه
+            </th>
+            <th>
+                زیر گروه
+            </th>
+            <th>
+                دستورات کلی
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Groups.Where(G => G.ParentId == null))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupTitle)
+                </td>
+                <td>
+                    <ol>
+                        @foreach (var subitem in Model.Groups.Where(G => G.ParentId == item.GroupId))
+                        {
+                            <li>
+                                @Html.DisplayFor(modelItem => subitem.GroupTitle)
+                                <div class="clearfix">
+                                    <a asp-page="./Edit" asp-route-id="@subitem.GroupId">ویرایش</a> |
+                                    <a asp-page="./Delete" asp-route-id="@subitem.GroupId">حذف</a>
+                                </div>
+                                <br />
+                                <div class="clearfix"></div>
+                            </li>
+                        }
+                    </ol>
+                </td>
+                <td>
+                    <a class="btn btn-success" asp-page="./Create" asp-route-id="@item.GroupId"> افزودن زیر گروه</a> |
+                    <a class="btn btn-warning" asp-page="./Edit" asp-route-id="@item.GroupId">ویرایش</a> |
+                    <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.GroupId">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -15,17 +15,17 @@ namespace DataLayer
             _context = context;
         }
 
-        public Users GetUserForActiveAccount(string activecode)
+        public User GetUserForActiveAccount(string activecode)
         {
             return _context.Users.FirstOrDefault(u => u.ActiveCode == activecode);
         }
 
-        public Users GetUserForgotPassword(string email)
+        public User GetUserForgotPassword(string email)
         {
             return _context.Users.FirstOrDefault(u => u.Email.ToLower() == email.ToLower() && u.IsActive);
         }
 
-        public Users GetUserForLogin(string email, string password)
+        public User GetUserForLogin(string email, string password)
         {
             return _context.Users.FirstOrDefault(u => u.Email.ToLower() == email.ToLower() && u.Password == password && u.IsActive == true);
         }

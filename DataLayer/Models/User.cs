@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataLayer
 {
-    public class Users
+    public class User
     {
         [Key]
         public int UserId { get; set; }
@@ -52,7 +52,7 @@ namespace DataLayer
 
 
         //Navigation property
-        public virtual Roles Roles { get; set; }
+        public virtual Role Roles { get; set; }
 
     }
 }
