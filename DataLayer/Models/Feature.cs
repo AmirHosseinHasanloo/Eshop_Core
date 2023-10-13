@@ -15,7 +15,7 @@ namespace DataLayer.Models
         }
         [Key]
         public int FeatureId { get; set; }
-        [Display(Name = "کلمه کلیدی")]
+        [Display(Name = "ویژگی")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(300, ErrorMessage = "فیلد {0} نمی تواند بیش از {1} کاراکتر باشد.")]
         public string FeatureTitle { get; set; }

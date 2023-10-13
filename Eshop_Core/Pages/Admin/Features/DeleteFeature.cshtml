@@ -1,0 +1,21 @@
+﻿@page
+@model Eshop_Core.Pages.Admin.Features.DeleteFeatureModel
+@{
+    ViewData["Title"] = "حذف ویژگی";
+}
+<br />
+<br />
+<div class="col-md-12">
+
+    <div class="row">
+        <span class="text-info"> ویژگی</span> : <span>@Model.Features.FeatureTitle</span>
+    </div>
+    <br/>
+    <form method="post">
+        <input type="hidden" asp-for="Features.FeatureId" />
+    <dd></dd>
+    <dt><input type="submit" class="btn btn-danger" value="حذف"></dt>
+    </form>
+
+
+</div>

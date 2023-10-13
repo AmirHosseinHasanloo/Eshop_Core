@@ -42,6 +42,7 @@ namespace Eshop_Core
             #region IoC
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
             services.AddTransient<IViewRenderService, RenderViewToString>();
 

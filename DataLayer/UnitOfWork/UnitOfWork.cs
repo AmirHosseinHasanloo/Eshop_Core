@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using DataLayer.Models;
 
 namespace DataLayer
 {
@@ -27,18 +28,33 @@ namespace DataLayer
                 return _ProductGroupsRepository;
             }
         }
-      
+
         private EshopGenericRepository<User> _UsersRepository;
 
         public EshopGenericRepository<User> UsersRepository
         {
             get
             {
-                if (_ProductGroupsRepository == null)
+                if (_UsersRepository == null)
                 {
                     _UsersRepository = new EshopGenericRepository<User>(_context);
                 }
                 return _UsersRepository;
+            }
+        }
+
+
+        private EshopGenericRepository<Feature> _FeaturesRepository;
+
+        public EshopGenericRepository<Feature> FeaturesRepository
+        {
+            get
+            {
+                if (_FeaturesRepository == null)
+                {
+                    _FeaturesRepository = new EshopGenericRepository<Feature>(_context);
+                }
+                return _FeaturesRepository;
             }
         }
 

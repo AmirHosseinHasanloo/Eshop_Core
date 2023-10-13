@@ -1,0 +1,38 @@
+﻿@page
+@model Eshop_Core.Pages.Admin.Features.IndexModel
+@{
+    ViewData["Title"] = "ویژگی ها";
+}
+<div class="clearfix"></div>
+<br />
+<p>
+    <a class="btn btn-success" href="Features/AddFeature">افزودن ویژگی</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               ویژگی های تعریف شده
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Features)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FeatureTitle)
+                </td>
+
+                <td>
+                    |
+                    <a class="btn btn-warning" asp-page="./EditFeature" asp-route-id="@item.FeatureId">ویرایش</a> |
+                    <a class="btn btn-danger" asp-page="./DeleteFeature" asp-route-id="@item.FeatureId">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
