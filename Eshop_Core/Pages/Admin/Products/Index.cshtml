@@ -1,7 +1,9 @@
 ﻿@page
 @using Core.Convertors;
+@using Core.Services.Interfaces;
 @using DataLayer.Entities;
 @model Eshop_Core.Pages.Admin.Products.IndexModel
+@inject IProductRepository _Product;
 @{
     ViewData["Title"] = "لیست محصولات";
 }
@@ -41,18 +43,27 @@
                 </td>
                 <td>
                     <img src="/ProductImage/@item.ImageName" alt="@item.Title" width="160" height="160" class="img-thumbnail img-responsive img-rounded">
-                </td
+                </td>
                 <td>@item.Price.ToString("#,0") تومان</td>
                 <td>@item.CreateDate.ToShamsi()</td>
                 <td>
                     <ol>
+                        @foreach (var selectedGroups in _Product.GetAllProductGroups(item.ProductId))
+                        {
+                            <li>
+                                <p>
+                                    @selectedGroups.GroupTitle
+                                </p>
+                            </li>
+                        }
                     </ol>
                 </td>
 
                 <td>
-                    <a class="btn btn-success" asp-page="./Create" asp-route-id=""> افزودن زیر گروه</a> |
-                    <a class="btn btn-warning" asp-page="./Edit" asp-route-id="">ویرایش</a> |
-                    <a class="btn btn-danger" asp-page="./Delete" asp-route-id="">حذف</a>
+                    <a class="btn-xs btn-info" asp-page="./Create" asp-route-id=""> گالری محصول </a> |
+                    <a class="btn-xs btn-primary" asp-page="./Create" asp-route-id=""> ویژگی محصول </a> |
+                    <a class="btn-xs btn-warning" asp-page="./Edit" asp-route-id="@item.ProductId">ویرایش</a> |
+                    <a class="btn-xs btn-danger" asp-page="./Delete" asp-route-id="">حذف</a>
                 </td>
             </tr>
         }

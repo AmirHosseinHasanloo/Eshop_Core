@@ -48,6 +48,41 @@ namespace Core.Services.Interfaces
 
         }
 
+
+        public void UpdateProduct(Product product, List<int> groups, string tags, IFormFile imagename)
+        {
+            if (imagename != null)
+            {
+                string path = "";
+                if (imagename.FileName != "no-image.png")
+                {
+                    path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ProductImage", product.ImageName);
+
+                    if (File.Exists(path))
+                    {
+                        File.Delete(path);
+                    }
+                }
+
+                product.ImageName = NameGenerator.Generate() + Path.GetExtension(imagename.FileName);
+                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ProductImage", product.ImageName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    imagename.CopyTo(stream);
+                }
+            }
+            _context.Update(product);
+            _context.SaveChanges();
+
+            // Update Product Selected Groups
+            UpdateProductSelectedGroups(product.ProductId, groups);
+
+            // Update Product Tags
+            UpdateProductTags(product.ProductId, tags);
+        }
+
+
         public void AddProductSelectedGroups(int productid, List<int> groupid)
         {
             foreach (var group in groupid)
@@ -84,10 +119,53 @@ namespace Core.Services.Interfaces
             return _context.Products.ToList();
         }
 
-        #region Admin Panel
+        public IEnumerable<ProductGroup> GetAllProductGroups(int productid)
+        {
+            var SelectedGroups = _context.SelectedGroups.Where(G => G.ProductId == productid).ToList();
 
-       
+            // return this 
 
-        #endregion
+            List<ProductGroup> SelectedList = new List<ProductGroup>();
+
+            foreach (var group in SelectedGroups)
+            {
+
+                var Add = _context.ProductGroups.Where(G => G.GroupId == group.GroupId);
+
+                foreach (var Adding in Add)
+                {
+                    SelectedList.Add(Adding);
+                }
+
+            }
+
+            return SelectedList.ToList();
+        }
+
+        public Product GetProductById(int productid)
+        {
+            return _context.Products.Find(productid);
+        }
+
+        public string GetTagsForShowingInEditProductOnAdmin(int productid)
+        {
+            return string.Join(",", _context.ProductTags.Where(T => T.ProductId == productid).Select(T => T.Tag).ToList());
+        }
+
+        public void UpdateProductTags(int productid, string tag)
+        {
+            _context.ProductTags.Where(T => T.ProductId == productid).ToList()
+                .ForEach(T => _context.ProductTags.Remove(T));
+
+            AddProductTags(productid, tag);
+        }
+
+        public void UpdateProductSelectedGroups(int productid, List<int> groupid)
+        {
+            _context.SelectedGroups.Where(SG => SG.ProductId == productid).ToList()
+                .ForEach(SG => _context.SelectedGroups.Remove(SG));
+
+            AddProductSelectedGroups(productid, groupid);
+        }
     }
 }

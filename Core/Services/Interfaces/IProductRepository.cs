@@ -14,10 +14,13 @@ namespace Core.Services.Interfaces
         void AddProductTags(int productid, string tag);
         void AddProductSelectedGroups(int productid, List<int> groupid);
         IEnumerable<Product> GetAll();
+        IEnumerable<ProductGroup> GetAllProductGroups(int productid);
         void AddProduct(Product product, List<int> groups, string tags, IFormFile imagename);
+        void UpdateProduct(Product product, List<int> groups, string tags, IFormFile imagename);
+        void UpdateProductTags(int productid, string tag);
+        void UpdateProductSelectedGroups(int productid, List<int> groupid);
 
-        #region Admin Panel
-
-        #endregion
+        Product GetProductById(int productid);
+        string GetTagsForShowingInEditProductOnAdmin(int productid);
     }
 }
