@@ -22,7 +22,7 @@ namespace DataLayer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DataLayer.Models.Feature", b =>
+            modelBuilder.Entity("DataLayer.Entities.Feature", b =>
                 {
                     b.Property<int>("FeatureId")
                         .ValueGeneratedOnAdd()
@@ -40,7 +40,7 @@ namespace DataLayer.Migrations
                     b.ToTable("Features");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Product", b =>
+            modelBuilder.Entity("DataLayer.Entities.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -55,6 +55,9 @@ namespace DataLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductGroupGroupId")
                         .HasColumnType("int");
 
                     b.Property<string>("ShortDescription")
@@ -74,10 +77,12 @@ namespace DataLayer.Migrations
 
                     b.HasKey("ProductId");
 
+                    b.HasIndex("ProductGroupGroupId");
+
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.ProductFeature", b =>
+            modelBuilder.Entity("DataLayer.Entities.ProductFeature", b =>
                 {
                     b.Property<int>("ProductFeatureId")
                         .ValueGeneratedOnAdd()
@@ -105,7 +110,7 @@ namespace DataLayer.Migrations
                     b.ToTable("ProductFeatures");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.ProductGallery", b =>
+            modelBuilder.Entity("DataLayer.Entities.ProductGallery", b =>
                 {
                     b.Property<int>("GalleryId")
                         .ValueGeneratedOnAdd()
@@ -131,7 +136,28 @@ namespace DataLayer.Migrations
                     b.ToTable("ProductGalleries");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.ProductTag", b =>
+            modelBuilder.Entity("DataLayer.Entities.ProductGroup", b =>
+                {
+                    b.Property<int>("GroupId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GroupId"));
+
+                    b.Property<string>("GroupTitle")
+                        .IsRequired()
+                        .HasMaxLength(350)
+                        .HasColumnType("nvarchar(350)");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GroupId");
+
+                    b.ToTable("ProductGroups");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.ProductTag", b =>
                 {
                     b.Property<int>("TagId")
                         .ValueGeneratedOnAdd()
@@ -154,7 +180,26 @@ namespace DataLayer.Migrations
                     b.ToTable("ProductTags");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.SelectedGroup", b =>
+            modelBuilder.Entity("DataLayer.Entities.Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
+
+                    b.Property<string>("RoleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.SelectedGroup", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -177,47 +222,7 @@ namespace DataLayer.Migrations
                     b.ToTable("SelectedGroups");
                 });
 
-            modelBuilder.Entity("DataLayer.ProductGroup", b =>
-                {
-                    b.Property<int>("GroupId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GroupId"));
-
-                    b.Property<string>("GroupTitle")
-                        .IsRequired()
-                        .HasMaxLength(350)
-                        .HasColumnType("nvarchar(350)");
-
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GroupId");
-
-                    b.ToTable("ProductGroups");
-                });
-
-            modelBuilder.Entity("DataLayer.Role", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
-
-                    b.Property<string>("RoleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RoleId");
-
-                    b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("DataLayer.User", b =>
+            modelBuilder.Entity("DataLayer.Entities.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -249,6 +254,9 @@ namespace DataLayer.Migrations
                     b.Property<string>("PostCode")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProductGroupGroupId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("RegisterDate")
                         .HasColumnType("datetime2");
 
@@ -265,20 +273,29 @@ namespace DataLayer.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("ProductGroupGroupId");
+
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.ProductFeature", b =>
+            modelBuilder.Entity("DataLayer.Entities.Product", b =>
                 {
-                    b.HasOne("DataLayer.Models.Feature", "Feature")
+                    b.HasOne("DataLayer.Entities.ProductGroup", null)
+                        .WithMany("Products")
+                        .HasForeignKey("ProductGroupGroupId");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.ProductFeature", b =>
+                {
+                    b.HasOne("DataLayer.Entities.Feature", "Feature")
                         .WithMany("ProductFeatures")
                         .HasForeignKey("FeatureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataLayer.Models.Product", "Product")
+                    b.HasOne("DataLayer.Entities.Product", "Product")
                         .WithMany("ProductFeatures")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -289,9 +306,9 @@ namespace DataLayer.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.ProductGallery", b =>
+            modelBuilder.Entity("DataLayer.Entities.ProductGallery", b =>
                 {
-                    b.HasOne("DataLayer.Models.Product", "Product")
+                    b.HasOne("DataLayer.Entities.Product", "Product")
                         .WithMany("ProductGalleries")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -300,9 +317,9 @@ namespace DataLayer.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.ProductTag", b =>
+            modelBuilder.Entity("DataLayer.Entities.ProductTag", b =>
                 {
-                    b.HasOne("DataLayer.Models.Product", "Product")
+                    b.HasOne("DataLayer.Entities.Product", "Product")
                         .WithMany("ProductTags")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -311,15 +328,15 @@ namespace DataLayer.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.SelectedGroup", b =>
+            modelBuilder.Entity("DataLayer.Entities.SelectedGroup", b =>
                 {
-                    b.HasOne("DataLayer.ProductGroup", "ProductGroup")
+                    b.HasOne("DataLayer.Entities.ProductGroup", "ProductGroup")
                         .WithMany("SelectedGroups")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataLayer.Models.Product", "Product")
+                    b.HasOne("DataLayer.Entities.Product", "Product")
                         .WithMany("SelectedGroups")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -330,23 +347,29 @@ namespace DataLayer.Migrations
                     b.Navigation("ProductGroup");
                 });
 
-            modelBuilder.Entity("DataLayer.User", b =>
+            modelBuilder.Entity("DataLayer.Entities.User", b =>
                 {
-                    b.HasOne("DataLayer.Role", "Roles")
+                    b.HasOne("DataLayer.Entities.ProductGroup", "ProductGroup")
+                        .WithMany()
+                        .HasForeignKey("ProductGroupGroupId");
+
+                    b.HasOne("DataLayer.Entities.Role", "Roles")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("ProductGroup");
+
                     b.Navigation("Roles");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Feature", b =>
+            modelBuilder.Entity("DataLayer.Entities.Feature", b =>
                 {
                     b.Navigation("ProductFeatures");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Product", b =>
+            modelBuilder.Entity("DataLayer.Entities.Product", b =>
                 {
                     b.Navigation("ProductFeatures");
 
@@ -357,12 +380,14 @@ namespace DataLayer.Migrations
                     b.Navigation("SelectedGroups");
                 });
 
-            modelBuilder.Entity("DataLayer.ProductGroup", b =>
+            modelBuilder.Entity("DataLayer.Entities.ProductGroup", b =>
                 {
+                    b.Navigation("Products");
+
                     b.Navigation("SelectedGroups");
                 });
 
-            modelBuilder.Entity("DataLayer.Role", b =>
+            modelBuilder.Entity("DataLayer.Entities.Role", b =>
                 {
                     b.Navigation("Users");
                 });

@@ -1,6 +1,60 @@
 ﻿@page
+@using Core.Convertors;
+@using DataLayer.Entities;
 @model Eshop_Core.Pages.Admin.Products.IndexModel
 @{
     ViewData["Title"] = "لیست محصولات";
 }
-<h1> Index </h1>
+
+<div class="clearfix"></div>
+<br />
+<p>
+    <a class="btn btn-success" href="Products/Add">افزودن محصول</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                نام محصول
+            </th>
+            <th>
+                تصویر
+            </th>
+            <th>
+                قیمت
+            </th>
+            <th>
+                تاریخ ثبت
+            </th>
+            <th>
+                گروه های کالا
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Products)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <img src="/ProductImage/@item.ImageName" alt="@item.Title" width="160" height="160" class="img-thumbnail img-responsive img-rounded">
+                </td
+                <td>@item.Price.ToString("#,0") تومان</td>
+                <td>@item.CreateDate.ToShamsi()</td>
+                <td>
+                    <ol>
+                    </ol>
+                </td>
+
+                <td>
+                    <a class="btn btn-success" asp-page="./Create" asp-route-id=""> افزودن زیر گروه</a> |
+                    <a class="btn btn-warning" asp-page="./Edit" asp-route-id="">ویرایش</a> |
+                    <a class="btn btn-danger" asp-page="./Delete" asp-route-id="">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
+using Core.Services.Interfaces;
 using DataLayer;
-using DataLayer.Repositories;
+using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -23,7 +24,7 @@ namespace Eshop_Core.Pages.Admin.ProductGroups
         }
 
         [BindProperty]
-        public DataLayer.ProductGroup Groups { get; set; }
+        public ProductGroup Groups { get; set; }
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)

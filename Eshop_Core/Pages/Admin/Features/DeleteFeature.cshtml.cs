@@ -1,31 +1,30 @@
-using DataLayer.Models;
-using DataLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Core.Services.Interfaces;
+using DataLayer.Entities;
 
 namespace Eshop_Core.Pages.Admin.Features
 {
     public class DeleteFeatureModel : PageModel
     {
-        private UnitOfWork _unit;
+        private IFeatures _feature;
 
-        public DeleteFeatureModel(EshopContext context)
+        public DeleteFeatureModel(IFeatures features)
         {
-            _unit = new UnitOfWork(context);
+            _feature = features;
         }
 
         [BindProperty]
         public Feature Features { get; set; }
         public void OnGet(int id)
         {
-            Features = _unit.FeaturesRepository.GetById(id);
+            Features = _feature.GetFeatureById(id);
         }
 
         public IActionResult OnPost()
         {
             // Insert & Save 
-            _unit.FeaturesRepository.Delete(Features);
-            _unit.FeaturesRepository.Save();
+            _feature.DeleteFeature(Features);
 
             return RedirectToPage("Index");
         }

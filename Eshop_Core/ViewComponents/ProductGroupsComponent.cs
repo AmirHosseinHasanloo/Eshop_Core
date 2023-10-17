@@ -1,4 +1,5 @@
-﻿using DataLayer;
+﻿using Core.Services.Interfaces;
+using DataLayer;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,15 +8,15 @@ namespace Eshop_Core.ViewComponents
 {
     public class ProductGroupsComponent : ViewComponent
     {
-        UnitOfWork _db;
-        public ProductGroupsComponent(EshopContext context)
+        IProductGroupRepository _groupRepository;
+        public ProductGroupsComponent(IProductGroupRepository groupRepository)
         {
-            _db = new UnitOfWork(context);
+            _groupRepository = groupRepository;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var ProductGroups = _db.ProductGroupsRepository.GetAll();
+            var ProductGroups = _groupRepository.GetAllGroups();
             return View("/Views/Components/ProductsGroupComponent.cshtml", ProductGroups);
         }
     }

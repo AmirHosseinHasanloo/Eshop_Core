@@ -12,18 +12,19 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Win32;
+using Core.DTOs;
+using Core.Services.Interfaces;
+using DataLayer.Entities;
 
 namespace Eshop_Core.Controllers
 {
     public class AccountController : Controller
     {
-        UnitOfWork unitOfWork;
         IUsersRepository _usersRepository;
         IViewRenderService _viewRenderService;
 
         public AccountController(EshopContext context, IUsersRepository usersRepository, IViewRenderService viewRenderService)
         {
-            this.unitOfWork = new UnitOfWork(context);
             _usersRepository = usersRepository;
             _viewRenderService = viewRenderService;
         }
@@ -54,9 +55,7 @@ namespace Eshop_Core.Controllers
                         RegisterDate = DateTime.Now,
                         ActiveCode = Guid.NewGuid().ToString(),
                     };
-
-                    unitOfWork.UsersRepository.Insert(user);
-                    unitOfWork.UsersRepository.Save();
+                    _usersRepository.AddUser(user);
 
                     #region SendActivationEmail
 
@@ -115,7 +114,7 @@ namespace Eshop_Core.Controllers
                     {
                         IsPersistent = login.RememberMe
                     };
-                  
+
                     HttpContext.SignInAsync(principle, properties);
                     ViewBag.IsSuccess = true;
                     return View();

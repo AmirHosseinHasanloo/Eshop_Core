@@ -1,24 +1,26 @@
-using DataLayer.Models;
 using DataLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using DataLayer.Entities;
+using Core.Services.Interfaces;
 
 namespace Eshop_Core.Pages.Admin.Features
 {
     public class EditFeatureModel : PageModel
     {
-        private UnitOfWork _unit;
 
-        public EditFeatureModel(EshopContext context)
+        private IFeatures _feature;
+
+        public EditFeatureModel(IFeatures features)
         {
-            _unit = new UnitOfWork(context);
+            _feature = features;
         }
 
         [BindProperty]
         public Feature Features { get; set; }
         public void OnGet(int id)
         {
-            Features = _unit.FeaturesRepository.GetById(id);
+            Features = _feature.GetFeatureById(id);
         }
 
         public IActionResult OnPost()
@@ -28,10 +30,8 @@ namespace Eshop_Core.Pages.Admin.Features
                 return Page();
             }
 
-            // Insert & Save 
-            _unit.FeaturesRepository.Update(Features);
-            _unit.FeaturesRepository.Save();
-
+            // Update & Save 
+            _feature.EditFeature(Features);
             return RedirectToPage("Index");
         }
     }

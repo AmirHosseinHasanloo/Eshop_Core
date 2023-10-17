@@ -11,9 +11,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DataLayer.Repositories;
-using DataLayer.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Core.Services.Interfaces;
+using Core.Services;
 
 namespace Eshop_Core
 {
@@ -40,9 +40,10 @@ namespace Eshop_Core
             #endregion
 
             #region IoC
-            services.AddScoped<IUsersRepository, UsersRepository>();
-            services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
-            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddTransient<IUsersRepository, UsersRepository>();
+            services.AddTransient<IFeatures, Features>();
+            services.AddTransient<IProductGroupRepository, ProductGroupRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
 
             services.AddTransient<IViewRenderService, RenderViewToString>();
 

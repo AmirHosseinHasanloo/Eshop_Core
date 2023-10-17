@@ -1,5 +1,6 @@
+using Core.Services.Interfaces;
 using DataLayer;
-using DataLayer.Models;
+using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -7,11 +8,11 @@ namespace Eshop_Core.Pages.Admin.Products
 {
     public class AddFeatureModel : PageModel
     {
-        private UnitOfWork _unit;
+        private IFeatures _feature;
 
-        public AddFeatureModel(EshopContext context)
+        public AddFeatureModel(IFeatures features)
         {
-            _unit = new UnitOfWork(context);
+            _feature = features;
         }
 
         [BindProperty]
@@ -28,8 +29,7 @@ namespace Eshop_Core.Pages.Admin.Products
             }
 
             // Insert & Save 
-            _unit.FeaturesRepository.Insert(Features);
-            _unit.FeaturesRepository.Save();
+            _feature.AddFeature(Features);
 
             return RedirectToPage("Index");
         }

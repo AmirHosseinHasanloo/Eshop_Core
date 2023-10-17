@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Services.Interfaces;
 using DataLayer;
-using DataLayer.Models;
-using DataLayer.Repositories;
+using DataLayer.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -11,22 +12,21 @@ namespace Eshop_Core.Pages.Admin.Products
 {
     public class AddModel : PageModel
     {
-        private EshopContext _context;
-
+        private IProductGroupRepository _productGroup;
         private IProductRepository _product;
-        public AddModel(EshopContext context, IProductRepository product)
+        public AddModel(IProductGroupRepository productGroup, IProductRepository product)
         {
-            _context = context;
+            _productGroup = productGroup;
             _product = product;
         }
         public void OnGet()
         {
-            ViewData["Groups"] = _context.ProductGroups.ToList();
+            ViewData["Groups"] = _productGroup.GetAllGroups();
         }
 
         [BindProperty]
         public Product Product { get; set; }
-        public IActionResult OnPost(List<int> selectedGroups, string Tags)
+        public IActionResult OnPost(List<int> selectedGroups, string Tags, IFormFile ImageUP)
         {
             if (!ModelState.IsValid)
             {
@@ -39,15 +39,8 @@ namespace Eshop_Core.Pages.Admin.Products
                 return Page();
             }
 
-
-            // add Product Tags
-            _product.AddProductTags(Product.ProductId, Tags);
-
-            // add Selected groups
-            _product.AddProductSelectedGroups(Product.ProductId, selectedGroups);
-
-            //TODO : Add Image & Product To DataBase
-
+            // Save Product
+            _product.AddProduct(Product, selectedGroups, Tags, ImageUP);
 
             return RedirectToPage("Index");
         }

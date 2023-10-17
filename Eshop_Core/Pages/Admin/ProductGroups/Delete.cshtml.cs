@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
-using DataLayer.Repositories;
+using Core.Services.Interfaces;
+using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -20,7 +21,7 @@ namespace Eshop_Core.Pages.Admin.ProductGroups
             Groups = _groupRepository.GetById(id);
         }
         [BindProperty]
-        public DataLayer.ProductGroup Groups { get; set; }
+        public ProductGroup Groups { get; set; }
         public IActionResult OnPost()
         {
             _groupRepository.DeleteGroups(Groups.GroupId);

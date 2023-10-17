@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using Core.Services.Interfaces;
 using DataLayer;
-using DataLayer.Models;
+using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,18 +10,20 @@ namespace Eshop_Core.Pages.Admin.Features
 {
     public class IndexModel : PageModel
     {
-        private UnitOfWork _unit;
 
-        public IndexModel(EshopContext context)
+        IFeatures _features;
+
+        public IndexModel(IFeatures features)
         {
-            _unit = new UnitOfWork(context);
+            _features = features;
         }
 
+
         [BindProperty]
-        public List<Feature> Features { get; set; }
+        public IEnumerable<Feature> Features { get; set; }
         public void OnGet()
         {
-            Features = _unit.FeaturesRepository.GetAll().ToList();
+            Features = _features.GetAllFeatures();
         }
     }
 }
