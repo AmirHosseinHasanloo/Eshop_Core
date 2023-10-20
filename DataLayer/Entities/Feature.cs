@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace DataLayer.Entities
     {
         public Feature()
         {
-
+            this.ProductFeatures = new HashSet<ProductFeature>();
         }
         [Key]
         public int FeatureId { get; set; }
@@ -21,7 +22,6 @@ namespace DataLayer.Entities
         public string FeatureTitle { get; set; }
 
         #region Relations
-
         public virtual ICollection<ProductFeature> ProductFeatures { get; set; }
 
         #endregion

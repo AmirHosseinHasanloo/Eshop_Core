@@ -7,6 +7,10 @@ namespace DataLayer.Entities
 {
     public class User
     {
+        public User()
+        {
+            
+        }
         [Key]
         public int UserId { get; set; }
 
@@ -53,6 +57,5 @@ namespace DataLayer.Entities
 
         //Navigation property
         public virtual Role Roles { get; set; }
-        public virtual ProductGroup ProductGroup { get; set; }
     }
 }

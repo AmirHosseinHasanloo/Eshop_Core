@@ -8,6 +8,10 @@ namespace DataLayer.Entities
 {
     public class ProductGroup
     {
+        public ProductGroup()
+        {
+            
+        }
         [Key]
         public int GroupId { get; set; }
         [Display(Name = "گروه محصول")]

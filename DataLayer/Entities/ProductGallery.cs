@@ -10,6 +10,10 @@ namespace DataLayer.Entities
 {
     public class ProductGallery
     {
+        public ProductGallery()
+        {
+            
+        }
         [Key]
         public int GalleryId { get; set; }
         [Display(Name = "کالا")]

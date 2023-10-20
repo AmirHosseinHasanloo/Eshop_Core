@@ -11,6 +11,10 @@ namespace DataLayer.Entities
 {
     public class SelectedGroup
     {
+        public SelectedGroup()
+        {
+            
+        }
         [Key]
         public int Id { get; set; }
 

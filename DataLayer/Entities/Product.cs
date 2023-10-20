@@ -11,6 +11,11 @@ namespace DataLayer.Entities
 {
     public class Product
     {
+        public Product()
+        {
+            
+        }
+
         [Key]
         public int ProductId { get; set; }
         [Display(Name = "عنوان محصول")]

@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,4 +13,5 @@ namespace Core.DTOs
         public Product Products { get; set; }
         public List<ProductGroup> ProductGroup { get; set; }
     }
+   
 }

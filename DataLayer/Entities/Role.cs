@@ -7,6 +7,10 @@ namespace DataLayer.Entities
 {
     public class Role
     {
+        public Role()
+        {
+            
+        }
         [Key]
         public int RoleId { get; set; }
         [Display(Name ="عنوان نقش")]

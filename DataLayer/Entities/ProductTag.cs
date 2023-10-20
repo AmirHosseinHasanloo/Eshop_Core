@@ -9,6 +9,10 @@ namespace DataLayer.Entities
 {
     public class ProductTag
     {
+        public ProductTag()
+        {
+            
+        }
         [Key]
         public int TagId { get; set; }
 

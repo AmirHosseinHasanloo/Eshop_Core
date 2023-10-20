@@ -167,5 +167,40 @@ namespace Core.Services.Interfaces
 
             AddProductSelectedGroups(productid, groupid);
         }
+
+        public List<Feature> GetAllFeatures()
+        {
+            return _context.Features.ToList();
+        }
+
+        public List<ProductFeature> GetProductFeaturesByProductId(int productid)
+        {
+            return _context.ProductFeatures.Where(PF => PF.ProductId == productid).ToList();
+        }
+
+        public void AddProductFeature(ProductFeature productFeature)
+        {
+            _context.ProductFeatures.Add(new ProductFeature
+            {
+                Product = productFeature.Product,
+                Feature = productFeature.Feature,
+                FeatureId = productFeature.FeatureId,
+                ProductId = productFeature.ProductId,
+                Value = productFeature.Value
+            });
+
+            _context.SaveChanges();
+        }
+
+        public void DeleteFeature(ProductFeature productFeature)
+        {
+           _context.ProductFeatures.Remove(productFeature);
+            _context.SaveChanges();
+        }
+
+        public ProductFeature GetProductFeatureByid(int productfeatureid)
+        {
+           return _context.ProductFeatures.Where(g=>g.ProductFeatureId== productfeatureid).FirstOrDefault();
+        }
     }
 }

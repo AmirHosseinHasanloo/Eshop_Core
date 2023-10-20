@@ -22,5 +22,10 @@ namespace Core.Services.Interfaces
 
         Product GetProductById(int productid);
         string GetTagsForShowingInEditProductOnAdmin(int productid);
+        List<Feature> GetAllFeatures();
+        List<ProductFeature> GetProductFeaturesByProductId(int productid);
+        void AddProductFeature(ProductFeature productFeature);
+        void DeleteFeature(ProductFeature productFeature);
+        ProductFeature GetProductFeatureByid(int productfeatureid);
     }
 }
