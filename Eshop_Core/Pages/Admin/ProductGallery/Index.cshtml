@@ -1,0 +1,69 @@
+﻿@page
+@using DataLayer.Entities;
+@model Eshop_Core.Pages.Admin.ProductGallery.IndexModel
+@{
+    ViewData["Title"] = "گالری محصولات";
+    var Galleries = ViewData["ProductGalleries"] as List<ProductGallery>;
+}
+
+<hr />
+<div class="row">
+    <form enctype="multipart/form-data" method="post">
+
+        <input type="hidden" asp-for="Gallery.ProductId">
+        <div class="col-md-5">
+            <div class="form-horizontal">
+
+                <br>
+                <div class="form-group">
+                    <label asp-for="Gallery.Title" class="control-label col-md-4"></label>
+                    <div class="col-md-8">
+                        <input asp-for="Gallery.Title" class="form-control">
+                        <span asp-validation-for="Gallery.Title" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Gallery.ImageName" class="control-label col-md-4"></label>
+                    <div class="col-md-8">
+                        <input type="file" class="alert alert-secondary" name="ImageUP" />
+                        <span asp-validation-for="Gallery.ImageName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-10">
+                        <input type="submit" value="ذخیره" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 alert alert-secondary">
+            <table class="table table-hover table-active table-bordered table-striped table-responsive table-condensed">
+                <tr>
+                    <th class="col-md-6">تصویر</th>
+                    <th class="col-md-4">عنوان</th>
+                    <th class="col-md-2"> دستورات </th>
+                </tr>
+                @foreach (var item in Galleries)
+                {
+                    <tr id="Gallery_@item.GalleryId">
+                        <td class="text-center">
+                            <img src="/ProductImage/ProductGalleries/@item.ImageName" class="img-responsive img-rounded img-thumbnail" height="220" width="270" alt="@item.Title" />
+                        </td>
+                        <td class="text-info">
+                            @item.Title
+                        </td>
+                        <td class="text-center">
+                            <a onclick="DeleteGallery(@item.GalleryId)" class="btn btn-danger"><span class="fa fa-eraser"></span> حدف تصویر </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script src="/js/galleryjs.js"></script>
+}

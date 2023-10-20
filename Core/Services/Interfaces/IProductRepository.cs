@@ -19,7 +19,6 @@ namespace Core.Services.Interfaces
         void UpdateProduct(Product product, List<int> groups, string tags, IFormFile imagename);
         void UpdateProductTags(int productid, string tag);
         void UpdateProductSelectedGroups(int productid, List<int> groupid);
-
         Product GetProductById(int productid);
         string GetTagsForShowingInEditProductOnAdmin(int productid);
         List<Feature> GetAllFeatures();
@@ -27,5 +26,9 @@ namespace Core.Services.Interfaces
         void AddProductFeature(ProductFeature productFeature);
         void DeleteFeature(ProductFeature productFeature);
         ProductFeature GetProductFeatureByid(int productfeatureid);
+        List<ProductGallery> GetProductGalleriesByProductId(int productid);
+        void AddProductGallery(ProductGallery productgallery,IFormFile imagename);
+        ProductGallery GetProductGalleryById(int galleryid);
+        void DeleteProductGallery(int galleryid);
     }
 }

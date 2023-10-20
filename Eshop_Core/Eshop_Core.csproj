@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Products\" />
+    <Folder Include="wwwroot\ProductImage\ProductGalleries\" />
   </ItemGroup>
 
   <ItemGroup>

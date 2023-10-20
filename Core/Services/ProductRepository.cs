@@ -194,13 +194,70 @@ namespace Core.Services.Interfaces
 
         public void DeleteFeature(ProductFeature productFeature)
         {
-           _context.ProductFeatures.Remove(productFeature);
+            _context.ProductFeatures.Remove(productFeature);
             _context.SaveChanges();
         }
 
         public ProductFeature GetProductFeatureByid(int productfeatureid)
         {
-           return _context.ProductFeatures.Where(g=>g.ProductFeatureId== productfeatureid).FirstOrDefault();
+            return _context.ProductFeatures.Where(g => g.ProductFeatureId == productfeatureid).FirstOrDefault();
+        }
+
+        public List<ProductGallery> GetProductGalleriesByProductId(int productid)
+        {
+            return _context.ProductGalleries.Where(PG => PG.ProductId == productid).ToList();
+        }
+
+        public void AddProductGallery(ProductGallery productgallery, IFormFile imagename)
+        {
+            dynamic FilePath;
+            if (imagename != null)
+            {
+                productgallery.ImageName = NameGenerator.Generate() + Path.GetExtension(imagename.FileName);
+
+                FilePath = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot/ProductImage/ProductGalleries",
+                productgallery.ImageName
+                                      );
+
+                using (var stream = new FileStream(FilePath, FileMode.Create))
+                {
+                    imagename.CopyTo(stream);
+                }
+
+                _context.ProductGalleries.Add(productgallery);
+                _context.SaveChanges();
+            }
+
+        }
+
+        public ProductGallery GetProductGalleryById(int galleryid)
+        {
+            return _context.ProductGalleries.Find(galleryid);
+        }
+
+        public void DeleteProductGallery(int galleryid)
+        {
+            var Delete = GetProductGalleryById(galleryid);
+
+
+
+            if (Delete.ImageName != null)
+            {
+                string FilePath = Path.Combine
+                (Directory.GetCurrentDirectory(),
+                "wwwroot/ProductImage/ProductGalleries",
+                Delete.ImageName);
+
+                if (File.Exists(FilePath))
+                {
+                    File.Delete(FilePath);
+                }
+            }
+
+            _context.ProductGalleries.Remove(Delete);
+            _context.SaveChanges();
         }
     }
 }
