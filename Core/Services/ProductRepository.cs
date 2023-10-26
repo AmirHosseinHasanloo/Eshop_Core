@@ -3,6 +3,7 @@ using Core.Generators;
 using DataLayer;
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace Core.Services.Interfaces
             _context = context;
         }
 
+        #region Add
         public void AddProduct(Product product, List<int> groups, string tags, IFormFile imagename)
         {
             if (imagename != null)
@@ -48,7 +50,171 @@ namespace Core.Services.Interfaces
 
         }
 
+        public void AddProductSelectedGroups(int productid, List<int> groupid)
+        {
+            foreach (var group in groupid)
+            {
+                _context.SelectedGroups.Add(new SelectedGroup()
+                {
+                    ProductId = productid,
+                    GroupId = group,
+                });
+                _context.SaveChanges();
+            }
+        }
 
+        public void AddProductTags(int productid, string tag)
+        {
+            if (!string.IsNullOrEmpty(tag))
+            {
+                string[] Tags = tag.Split(',');
+
+                foreach (string Tag in Tags)
+                {
+                    _context.ProductTags.Add(new ProductTag
+                    {
+                        ProductId = productid,
+                        Tag = Tag.Trim(),
+                    });
+                }
+                _context.SaveChanges();
+            }
+        }
+
+        public void AddProductFeature(ProductFeature productFeature)
+        {
+            _context.ProductFeatures.Add(new ProductFeature
+            {
+                Product = productFeature.Product,
+                Feature = productFeature.Feature,
+                FeatureId = productFeature.FeatureId,
+                ProductId = productFeature.ProductId,
+                Value = productFeature.Value
+            });
+
+            _context.SaveChanges();
+        }
+
+        public void AddProductGallery(ProductGallery productgallery, IFormFile imagename)
+        {
+            dynamic FilePath;
+            if (imagename != null)
+            {
+                productgallery.ImageName = NameGenerator.Generate() + Path.GetExtension(imagename.FileName);
+
+                FilePath = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot/ProductImage/ProductGalleries",
+                productgallery.ImageName
+                                      );
+
+                using (var stream = new FileStream(FilePath, FileMode.Create))
+                {
+                    imagename.CopyTo(stream);
+                }
+
+                _context.ProductGalleries.Add(productgallery);
+                _context.SaveChanges();
+            }
+
+        }
+
+        #endregion
+
+        #region Get 
+        public IEnumerable<Product> GetAll()
+        {
+            return _context.Products.ToList();
+        }
+
+        public IEnumerable<ProductGroup> GetAllProductGroups(int productid)
+        {
+            var SelectedGroups = _context.SelectedGroups.Where(G => G.ProductId == productid).ToList();
+
+            // return this 
+
+            List<ProductGroup> SelectedList = new List<ProductGroup>();
+
+            foreach (var group in SelectedGroups)
+            {
+
+                var Add = _context.ProductGroups.Where(G => G.GroupId == group.GroupId);
+
+                foreach (var Adding in Add)
+                {
+                    SelectedList.Add(Adding);
+                }
+
+            }
+
+            return SelectedList.ToList();
+        }
+
+        public Product GetProductById(int productid)
+        {
+            return _context.Products.Include(p => p.ProductGalleries)
+                .Include(p => p.ProductTags)
+                .SingleOrDefault(p => p.ProductId == productid);
+        }
+
+        public string GetTagsForShowingInEditProductOnAdmin(int productid)
+        {
+            return string.Join(",", _context.ProductTags.Where(T => T.ProductId == productid).Select(T => T.Tag).ToList());
+        }
+
+        public List<Feature> GetAllFeatures()
+        {
+            return _context.Features.ToList();
+        }
+
+        public List<ProductFeature> GetProductFeaturesByProductIdForAdmin(int productid)
+        {
+            return _context.ProductFeatures.Where(PF => PF.ProductId == productid).ToList();
+        }
+
+        public ProductFeature GetProductFeatureByid(int productfeatureid)
+        {
+            return _context.ProductFeatures.Where(g => g.ProductFeatureId == productfeatureid).FirstOrDefault();
+        }
+
+        public List<ProductGallery> GetProductGalleriesByProductId(int productid)
+        {
+            return _context.ProductGalleries.Where(PG => PG.ProductId == productid).ToList();
+        }
+
+        public ProductGallery GetProductGalleryById(int galleryid)
+        {
+            return _context.ProductGalleries.Find(galleryid);
+        }
+
+        public List<Product> Get24OfNewProducts()
+        {
+            return _context.Products.OrderByDescending(p => p.CreateDate).Take(24).ToList();
+        }
+
+        public IEnumerable<ProductFeaturesViewModel> GetProductFeaturesByProductIdForShowingPage(int productid)
+        {
+            List<ProductFeaturesViewModel> List = new List<ProductFeaturesViewModel>();
+
+
+            var Feature = _context.ProductFeatures.Include(F => F.Feature)
+                .Where(F => F.ProductId == productid).ToList();
+
+
+            foreach (var item in Feature.Where(PF => PF.ProductId == productid).DistinctBy(F => F.FeatureId))
+            {
+                List.Add(new ProductFeaturesViewModel
+                {
+                    FeatureTitle = item.Feature.FeatureTitle,
+                    Values = _context.ProductFeatures.Where(PF => PF.FeatureId == item.FeatureId && PF.ProductId == productid).Select(PF => PF.Value).ToList()
+                });
+            }
+
+            return List.ToList();
+        }
+        #endregion
+
+        #region Update
         public void UpdateProduct(Product product, List<int> groups, string tags, IFormFile imagename)
         {
             if (imagename != null)
@@ -82,76 +248,6 @@ namespace Core.Services.Interfaces
             UpdateProductTags(product.ProductId, tags);
         }
 
-
-        public void AddProductSelectedGroups(int productid, List<int> groupid)
-        {
-            foreach (var group in groupid)
-            {
-                _context.SelectedGroups.Add(new SelectedGroup()
-                {
-                    ProductId = productid,
-                    GroupId = group,
-                });
-                _context.SaveChanges();
-            }
-        }
-
-        public void AddProductTags(int productid, string tag)
-        {
-            if (!string.IsNullOrEmpty(tag))
-            {
-                string[] Tags = tag.Split(',');
-
-                foreach (string Tag in Tags)
-                {
-                    _context.ProductTags.Add(new ProductTag
-                    {
-                        ProductId = productid,
-                        Tag = Tag.Trim(),
-                    });
-                }
-                _context.SaveChanges();
-            }
-        }
-
-        public IEnumerable<Product> GetAll()
-        {
-            return _context.Products.ToList();
-        }
-
-        public IEnumerable<ProductGroup> GetAllProductGroups(int productid)
-        {
-            var SelectedGroups = _context.SelectedGroups.Where(G => G.ProductId == productid).ToList();
-
-            // return this 
-
-            List<ProductGroup> SelectedList = new List<ProductGroup>();
-
-            foreach (var group in SelectedGroups)
-            {
-
-                var Add = _context.ProductGroups.Where(G => G.GroupId == group.GroupId);
-
-                foreach (var Adding in Add)
-                {
-                    SelectedList.Add(Adding);
-                }
-
-            }
-
-            return SelectedList.ToList();
-        }
-
-        public Product GetProductById(int productid)
-        {
-            return _context.Products.Find(productid);
-        }
-
-        public string GetTagsForShowingInEditProductOnAdmin(int productid)
-        {
-            return string.Join(",", _context.ProductTags.Where(T => T.ProductId == productid).Select(T => T.Tag).ToList());
-        }
-
         public void UpdateProductTags(int productid, string tag)
         {
             _context.ProductTags.Where(T => T.ProductId == productid).ToList()
@@ -167,75 +263,16 @@ namespace Core.Services.Interfaces
 
             AddProductSelectedGroups(productid, groupid);
         }
+        #endregion
 
-        public List<Feature> GetAllFeatures()
-        {
-            return _context.Features.ToList();
-        }
-
-        public List<ProductFeature> GetProductFeaturesByProductId(int productid)
-        {
-            return _context.ProductFeatures.Where(PF => PF.ProductId == productid).ToList();
-        }
-
-        public void AddProductFeature(ProductFeature productFeature)
-        {
-            _context.ProductFeatures.Add(new ProductFeature
-            {
-                Product = productFeature.Product,
-                Feature = productFeature.Feature,
-                FeatureId = productFeature.FeatureId,
-                ProductId = productFeature.ProductId,
-                Value = productFeature.Value
-            });
-
-            _context.SaveChanges();
-        }
-
+        #region Delete
         public void DeleteFeature(ProductFeature productFeature)
         {
             _context.ProductFeatures.Remove(productFeature);
             _context.SaveChanges();
         }
 
-        public ProductFeature GetProductFeatureByid(int productfeatureid)
-        {
-            return _context.ProductFeatures.Where(g => g.ProductFeatureId == productfeatureid).FirstOrDefault();
-        }
 
-        public List<ProductGallery> GetProductGalleriesByProductId(int productid)
-        {
-            return _context.ProductGalleries.Where(PG => PG.ProductId == productid).ToList();
-        }
-
-        public void AddProductGallery(ProductGallery productgallery, IFormFile imagename)
-        {
-            dynamic FilePath;
-            if (imagename != null)
-            {
-                productgallery.ImageName = NameGenerator.Generate() + Path.GetExtension(imagename.FileName);
-
-                FilePath = Path.Combine(
-                Directory.GetCurrentDirectory(),
-                "wwwroot/ProductImage/ProductGalleries",
-                productgallery.ImageName
-                                      );
-
-                using (var stream = new FileStream(FilePath, FileMode.Create))
-                {
-                    imagename.CopyTo(stream);
-                }
-
-                _context.ProductGalleries.Add(productgallery);
-                _context.SaveChanges();
-            }
-
-        }
-
-        public ProductGallery GetProductGalleryById(int galleryid)
-        {
-            return _context.ProductGalleries.Find(galleryid);
-        }
 
         public void DeleteProductGallery(int galleryid)
         {
@@ -259,5 +296,10 @@ namespace Core.Services.Interfaces
             _context.ProductGalleries.Remove(Delete);
             _context.SaveChanges();
         }
+
+
+
+
+        #endregion
     }
 }

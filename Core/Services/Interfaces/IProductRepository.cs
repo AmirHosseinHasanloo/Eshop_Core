@@ -11,24 +11,42 @@ namespace Core.Services.Interfaces
 {
     public interface IProductRepository
     {
+
+        #region Add 
         void AddProductTags(int productid, string tag);
         void AddProductSelectedGroups(int productid, List<int> groupid);
+        void AddProduct(Product product, List<int> groups, string tags, IFormFile imagename);
+        void AddProductFeature(ProductFeature productFeature);
+        void AddProductGallery(ProductGallery productgallery, IFormFile imagename);
+        #endregion
+
+
+        #region Get
         IEnumerable<Product> GetAll();
         IEnumerable<ProductGroup> GetAllProductGroups(int productid);
-        void AddProduct(Product product, List<int> groups, string tags, IFormFile imagename);
-        void UpdateProduct(Product product, List<int> groups, string tags, IFormFile imagename);
-        void UpdateProductTags(int productid, string tag);
-        void UpdateProductSelectedGroups(int productid, List<int> groupid);
         Product GetProductById(int productid);
         string GetTagsForShowingInEditProductOnAdmin(int productid);
         List<Feature> GetAllFeatures();
-        List<ProductFeature> GetProductFeaturesByProductId(int productid);
-        void AddProductFeature(ProductFeature productFeature);
-        void DeleteFeature(ProductFeature productFeature);
+        List<ProductFeature> GetProductFeaturesByProductIdForAdmin(int productid);
         ProductFeature GetProductFeatureByid(int productfeatureid);
         List<ProductGallery> GetProductGalleriesByProductId(int productid);
-        void AddProductGallery(ProductGallery productgallery,IFormFile imagename);
         ProductGallery GetProductGalleryById(int galleryid);
+        List<Product> Get24OfNewProducts();
+        IEnumerable<ProductFeaturesViewModel> GetProductFeaturesByProductIdForShowingPage(int productid);
+        #endregion
+
+
+        #region Update
+        void UpdateProduct(Product product, List<int> groups, string tags, IFormFile imagename);
+        void UpdateProductTags(int productid, string tag);
+        void UpdateProductSelectedGroups(int productid, List<int> groupid);
+        #endregion
+
+
+        #region Delete
+        void DeleteFeature(ProductFeature productFeature);
         void DeleteProductGallery(int galleryid);
+        #endregion
+
     }
 }

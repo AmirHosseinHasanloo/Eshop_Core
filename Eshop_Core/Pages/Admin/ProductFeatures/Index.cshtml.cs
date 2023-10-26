@@ -23,7 +23,7 @@ namespace Eshop_Core.Pages.Admin.ProductFeatures
         // id ==> Product Id
         public void OnGet(int id)
         {
-            ViewData["Features"] = _ProductRepository.GetProductFeaturesByProductId(id);
+            ViewData["Features"] = _ProductRepository.GetProductFeaturesByProductIdForAdmin(id);
             ViewData["FeatureId"] = new SelectList(_ProductRepository.GetAllFeatures(), "FeatureId", "FeatureTitle");
             ProductFeature = new ProductFeature()
             {

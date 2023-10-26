@@ -13,5 +13,9 @@ namespace Core.DTOs
         public Product Products { get; set; }
         public List<ProductGroup> ProductGroup { get; set; }
     }
-   
+    public class ProductFeaturesViewModel
+    {
+        public string FeatureTitle { get; set; }
+        public List<string> Values { get; set; }
+    }
 }
