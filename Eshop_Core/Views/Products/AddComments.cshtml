@@ -1,0 +1,33 @@
+﻿@using Core.Services.Interfaces;
+@model int
+
+@inject IProductRepository _Product;
+
+@{
+    var Comment = _Product.GetCommentByCommentId(Model);
+}
+
+<form action="AddComments" method="post">
+    <input type="hidden" value="@Model" name="ProductId" />
+    <input type="hidden" name="ParentId" id="ParentId" />
+
+    <div class="col-md-5">
+        <div class="form-group">
+            <input class="form-control" name="UserName" id="UserName" placeholder="نام و نام خانوادگی" type="text">
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="Email" id="Email" placeholder="ایمیل" type="text">
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="WebSite" id="WebSite" placeholder="وب سایت" type="text">
+        </div>
+    </div>
+    <div class="col-md-7">
+        <textarea class="form-control" name="Comment" id="Comment" placeholder="متن دیدگاه"></textarea>
+        <input class="btn btn-primary" value="ثبت دیدگاه ارزشمند شما" onclick="AddComment(@Model)">
+    </div>
+    <div class="clearfix"></div>
+</form>
+
+
+

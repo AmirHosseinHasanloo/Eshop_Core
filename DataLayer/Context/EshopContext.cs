@@ -34,6 +34,7 @@ namespace DataLayer
         public virtual DbSet<ProductGallery> ProductGalleries { get; set; }
         public virtual DbSet<ProductTag> ProductTags { get; set; }
         public virtual DbSet<SelectedGroup> SelectedGroups { get; set; }
+        public virtual DbSet<ProductComments> ProductComments { get; set; }
         #endregion
 
     }

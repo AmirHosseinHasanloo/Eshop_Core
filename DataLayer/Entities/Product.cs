@@ -43,6 +43,7 @@ namespace DataLayer.Entities
         public virtual ICollection<SelectedGroup> SelectedGroups { get; set; }
         public virtual ICollection<ProductGallery> ProductGalleries { get; set; }
         public virtual ICollection<ProductFeature> ProductFeatures { get; set; }
+        public virtual ICollection<ProductComments> ProductComments { get; set; }
 
         #endregion
 

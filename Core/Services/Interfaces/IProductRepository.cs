@@ -18,6 +18,7 @@ namespace Core.Services.Interfaces
         void AddProduct(Product product, List<int> groups, string tags, IFormFile imagename);
         void AddProductFeature(ProductFeature productFeature);
         void AddProductGallery(ProductGallery productgallery, IFormFile imagename);
+        void AddProductComment(ProductComments comment);
         #endregion
 
 
@@ -33,6 +34,8 @@ namespace Core.Services.Interfaces
         ProductGallery GetProductGalleryById(int galleryid);
         List<Product> Get24OfNewProducts();
         IEnumerable<ProductFeaturesViewModel> GetProductFeaturesByProductIdForShowingPage(int productid);
+        IEnumerable<ProductComments> GetProductCommentsByProductId(int productid);
+        ProductComments GetCommentByCommentId(int commentid);
         #endregion
 
 

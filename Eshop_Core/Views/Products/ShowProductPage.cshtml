@@ -1,36 +1,45 @@
-﻿@using DataLayer.Entities;
-@model DataLayer.Entities.Product
+﻿@using Core.Convertors;
+@using Core.Services.Interfaces;
+@using DataLayer.Entities;
+@model int
+
+@inject IProductRepository _Product;
 
 @{
-    ViewData["Title"] = Model.Title;
+    var ProductPage = _Product.GetProductById(Model);
+
+    ViewData["Title"] = ProductPage.Title;
+
     var Features = ViewBag.FeaturesTitle as List<Core.DTOs.ProductFeaturesViewModel>;
+    var _InjectProduct = _Product.GetProductCommentsByProductId(Model);
 }
+
 
 <div class="col-md-9 col-sm-8 left-side-content">
     <section class="single-page">
-        <header><h3> @Model.Title  </h3> </header>
+        <header><h3> @ProductPage.Title  </h3> </header>
         <article>
             <!-- Detail -->
             <div class="col-md-8 col-sm-12 col-xs-12 pull-left detail-product">
                 <div>
-                    <span> قیمت : @Model.Price.ToString("#,0") تومان </span>
+                    <span> قیمت : @ProductPage.Price.ToString("#,0") تومان </span>
                     <a href="" class="add-to-card-link border-radius"> افزودن به سبد خرید </a>
                 </div>
                 <p>
-                    @Html.Raw(Model.ShortDescription)
+                    @Html.Raw(ProductPage.ShortDescription)
                 </p>
             </div>
             <!-- End Detail -->
             <!-- Gallery -->
             <div class="col-md-4 col-sm-12 col-xs-12 pull-right product-gallery">
                 <div class="large-image border-radius">
-                    <img class="border-radius" src="/ProductImage/@Model.ImageName">
+                    <img class="border-radius" src="/ProductImage/@ProductPage.ImageName">
                 </div>
-                @if (Model.ProductGalleries.Any())
+                @if (ProductPage.ProductGalleries.Any())
                 {
                     <div class="thumbnails-image">
                         <div class="row">
-                            @foreach (var Gallery in Model.ProductGalleries)
+                            @foreach (var Gallery in ProductPage.ProductGalleries)
                             {
                                 <div class="col-md-3 col-sm-3 col-xs-4 border-radius">
                                     <img class="border-radius" src="/ProductImage/ProductGalleries/@Gallery.ImageName" alt="@Gallery.Title">
@@ -60,7 +69,7 @@
             <div id="main-content" class="tab-pane fade in active">
                 <h3>  توضیحات محصول : </h3>
                 <p>
-                    @Html.Raw(Model.Text)
+                    @Html.Raw(ProductPage.Text)
                 </p>
             </div>
             <!-- End description -->
@@ -82,97 +91,56 @@
             <!-- Comment -->
             <div id="comments" class="tab-pane fade">
                 <div class="comment-layer">
-                    <form action="" method="post">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <input class="form-control" placeholder="نام و نام خانوادگی" type="text">
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="ایمیل" type="text">
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="وب سایت" type="text">
-                            </div>
-                        </div>
-                        <div class="col-md-7">
-                            <textarea class="form-control" placeholder="متن دیدگاه"></textarea>
-                            <input class="btn btn-primary" value="ثبت دیدگاه ارزشمند شما" type="submit">
-                        </div>
-                        <div class="clearfix"></div>
-                    </form>
-                    <ul class="comment-list">
-                        <li>
-                            <a href="" class="reply-button">پاسخ</a>
 
-                            <img src="img/avatar.jpg" width="65">
-                            <div>
-                                <h5>ارسال شده از : میترا رحیمی در تاریخ : 15/5/95 </h5>
-                                <p>
-                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیستری را برای طراحان رایانه ای و فرهنگ پیشرو در زبان فارسی ایجاد کرد.
-                                </p>
-                            </div>
-                            <div class="clearfix"></div>
-                            <ul>
-                                <li>
-                                    <a href="" class="reply-button">پاسخ</a>
+                    <!-- Add Comment -->
+                    <!-- End Add Comment -->
+                    <div id="myDiv">
+                        @Html.Partial("AddComments",ProductPage.ProductId)
+                    </div>
 
-                                    <img src="img/avatar.jpg" width="65">
-                                    <div>
-                                        <h5>ارسال شده از : میترا رحیمی در تاریخ : 15/5/95 </h5>
-                                        <p>
-                                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیستری را برای طراحان رایانه ای و فرهنگ پیشرو در زبان فارسی ایجاد کرد.
-                                        </p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </li>
-                                <li>
-                                    <a href="" class="reply-button">پاسخ</a>
-                                    <img src="img/avatar.jpg" width="65">
-                                    <div>
-                                        <h5>ارسال شده از : میترا رحیمی در تاریخ : 15/5/95 </h5>
-                                        <p>
-                                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیستری را برای طراحان رایانه ای و فرهنگ پیشرو در زبان فارسی ایجاد کرد.
-                                        </p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </li>
-                                <li>
-                                    <a href="" class="reply-button">پاسخ</a>
-                                    <img src="img/avatar.jpg" width="65">
-                                    <div>
-                                        <h5>ارسال شده از : میترا رحیمی در تاریخ : 15/5/95 </h5>
-                                        <p>
-                                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیستری را برای طراحان رایانه ای و فرهنگ پیشرو در زبان فارسی ایجاد کرد.
-                                        </p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </li>
-                            </ul>
+                    <!-- Show Product Comments List -->
+                    @if (_InjectProduct.Any())
+                    {
+                        <ul class="comment-list">
+                            <li>
+                                <div class="clearfix"></div>
+                                <ul>
+                                    @foreach (var comments in _InjectProduct.Where(pc => pc.ParentId == null))
+                                    {
+                                        <li>
+                                            <a onclick="ReplyComment(@comments.CommentId)" id="Replybtn" class="reply-button">پاسخ</a>
 
-                        </li>
-                        <li>
-                            <a href="" class="reply-button">پاسخ</a>
-                            <img src="img/avatar.jpg" width="65">
-                            <div>
-                                <h5>ارسال شده از : میترا رحیمی در تاریخ : 15/5/95 </h5>
-                                <p>
-                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیستری را برای طراحان رایانه ای و فرهنگ پیشرو در زبان فارسی ایجاد کرد.
-                                </p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-                        <li>
-                            <a href="" class="reply-button">پاسخ</a>
-                            <img src="img/avatar.jpg" width="65">
-                            <div>
-                                <h5>ارسال شده از : میترا رحیمی در تاریخ : 15/5/95 </h5>
-                                <p>
-                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیستری را برای طراحان رایانه ای و فرهنگ پیشرو در زبان فارسی ایجاد کرد.
-                                </p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-                    </ul>
+                                            <img src="/img/avatar.jpg" width="65">
+                                            <div>
+                                                <h5>ارسال شده از : @comments.UserName : @comments.CreateDate.ToShamsi() </h5>
+                                                <p>
+                                                    @comments.Comment
+                                                </p>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </li>
+
+                                        foreach (var subComment in _InjectProduct.Where(pc => pc.ParentId == comments.CommentId))
+                                        {
+                                            <li>
+                                                <img src="/img/avatar.jpg" width="65">
+                                                <div>
+                                                    <h5>پاسخ داده شده توسط : @subComment.UserName : @subComment.CreateDate.ToShamsi() </h5>
+                                                    <p>
+                                                        @subComment.Comment
+                                                    </p>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+
+                            </li>
+                        </ul>
+                    }
+
+                    <!-- End Show Product Comments List -->
                 </div>
 
             </div>
@@ -184,7 +152,7 @@
     </div>
 
     <section class="border-radius tags-layer">
-        @foreach (var ProductTags in Model.ProductTags)
+        @foreach (var ProductTags in ProductPage.ProductTags)
         {
             <a href=""> @ProductTags.Tag </a>
         }
@@ -193,3 +161,28 @@
 
 </div>
 
+
+@section Scripts{
+    <script>
+        function ReplyComment(id) {
+            $("#ParentId").val(id);
+            $("html, body").animate({ scrollTop: $("#myDiv").offset().top }, 1000);
+        }
+
+        function AddComment(id) { 
+            $.ajax({
+                url:"/Products/AddComments/" +id,
+                
+            })
+        }
+
+
+        function success() {
+            $("#UserName").val("");
+            $("#Email").val("");
+            $("#WebSite").val("");
+            $("#Comment").val("");
+            $("#ParentId").val("");
+        }
+    </script>
+        }

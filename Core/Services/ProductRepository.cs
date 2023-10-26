@@ -119,6 +119,13 @@ namespace Core.Services.Interfaces
 
         }
 
+        public void AddProductComment(ProductComments comment)
+        {
+            comment.CreateDate = DateTime.Now;
+            _context.ProductComments.Add(comment);
+            _context.SaveChanges();
+        }
+
         #endregion
 
         #region Get 
@@ -212,6 +219,16 @@ namespace Core.Services.Interfaces
 
             return List.ToList();
         }
+
+        public IEnumerable<ProductComments> GetProductCommentsByProductId(int productid)
+        {
+            return _context.ProductComments.Where(PC => PC.ProductId == productid).ToList();
+        }
+
+        public ProductComments GetCommentByCommentId(int commentid)
+        {
+            return _context.ProductComments.Find(commentid);
+        }
         #endregion
 
         #region Update
@@ -296,9 +313,6 @@ namespace Core.Services.Interfaces
             _context.ProductGalleries.Remove(Delete);
             _context.SaveChanges();
         }
-
-
-
 
         #endregion
     }
