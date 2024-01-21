@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Core.DTOs.CompareItemViewModel>;
+@{
+    ViewData["Title"] = "مقایسه محصولات";
+    var features = ViewBag.Features as List<DataLayer.Entities.Feature>;
+    var productFeatures = ViewBag.ProductFeatures as List<DataLayer.Entities.ProductFeature>;
+}
+
+@inject Core.Services.Interfaces.IFeaturesService _featureServices;
+
+<div class="container margin-top-25">
+    <div class="compare-page">
+
+        <h6> مقایسه محصولات </h6>
+        <div class="products-list">
+
+            <div class="col-md-3 col-sm-3 hidden-xs subject-list">
+
+                <div>
+
+                    <p> تصویر :</p>
+                    <p> عنوان :</p>
+                    @foreach (var feature in features.Distinct())
+                    {
+                        <p>@feature.FeatureTitle</p>
+                    }
+                </div>
+
+            </div>
+
+
+            <div class="col-md-9 col-sm-9 col-xs-12 compare-product-list">
+
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div>
+                            <a href=""><img src="/ProductImage/@item.ImageName"></a>
+                            <h2> @item.ProductTitle </h2>
+
+                            @foreach (var subItem in productFeatures.Take(1))
+                                        {
+                                @foreach (var sub in features)
+                                {
+                                    <p><label>  </label> <span> @string.Join(",",productFeatures.Where(pf=>pf.ProductId==item.ProductId && pf.FeatureId==sub.FeatureId).Select(pf=>pf.Value).ToList()))</span></p>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                }
+
+                <div class="clearfix"></div>
+
+            </div>
+
+            <div class="row"></div>
+
+        </div>
+
+    </div>
+</div>
+

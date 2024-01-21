@@ -3,7 +3,7 @@
 @using DataLayer.Entities;
 @model int
 
-@inject IProductRepository _Product;
+@inject IProductService _Product;
 
 @{
     var ProductPage = _Product.GetProductById(Model);
@@ -82,7 +82,7 @@
                     <ul>
                         @foreach (var Feature in Features)
                         {
-                            <li> @Feature.FeatureTitle : @string.Join(",",Feature.Values)</li>
+                            <li> @Feature.FeatureTitle : @string.Join(",", Feature.Values)</li>
                         }
                     </ul>
                 }
@@ -94,51 +94,30 @@
 
                     <!-- Add Comment -->
                     <!-- End Add Comment -->
-                    <div id="myDiv">
-                        @Html.Partial("AddComments",ProductPage.ProductId)
+                    <div>
+                        <form asp-controller="Products" asp-action="CreateComment"
+                              data-ajax="true"
+                              data-ajax-method="true"
+                              data-ajax-mode="replace"
+                              data-ajax-update="#listComment"
+                              data-ajax-success="Success">
+                            <input type="hidden" value="@ProductPage.ProductId" name="comment.ProductId" />
+                            <input type="hidden" name="comment.ParentId" id="comment_ParentId" />
+                            <div class="col-md-12">
+                                <textarea class="form-control" name="comment.Comment" id="comment_Comment" placeholder="متن دیدگاه"></textarea>
+                                <button class="btn btn-primary" type="submit">افزودن دیدگاه در مورد محصول</button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+
+
+
                     </div>
 
                     <!-- Show Product Comments List -->
-                    @if (_InjectProduct.Any())
-                    {
-                        <ul class="comment-list">
-                            <li>
-                                <div class="clearfix"></div>
-                                <ul>
-                                    @foreach (var comments in _InjectProduct.Where(pc => pc.ParentId == null))
-                                    {
-                                        <li>
-                                            <a onclick="ReplyComment(@comments.CommentId)" id="Replybtn" class="reply-button">پاسخ</a>
 
-                                            <img src="/img/avatar.jpg" width="65">
-                                            <div>
-                                                <h5>ارسال شده از : @comments.UserName : @comments.CreateDate.ToShamsi() </h5>
-                                                <p>
-                                                    @comments.Comment
-                                                </p>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </li>
-
-                                        foreach (var subComment in _InjectProduct.Where(pc => pc.ParentId == comments.CommentId))
-                                        {
-                                            <li>
-                                                <img src="/img/avatar.jpg" width="65">
-                                                <div>
-                                                    <h5>پاسخ داده شده توسط : @subComment.UserName : @subComment.CreateDate.ToShamsi() </h5>
-                                                    <p>
-                                                        @subComment.Comment
-                                                    </p>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </li>
-                                        }
-                                    }
-                                </ul>
-
-                            </li>
-                        </ul>
-                    }
+                    <ul class="comment-list" id="listComment">
+                    </ul>
 
                     <!-- End Show Product Comments List -->
                 </div>
@@ -154,7 +133,7 @@
     <section class="border-radius tags-layer">
         @foreach (var ProductTags in ProductPage.ProductTags)
         {
-            <a href=""> @ProductTags.Tag </a>
+            <a href="/Search?q=@ProductTags.Tag"> @ProductTags.Tag </a>
         }
     </section>
 
@@ -162,27 +141,9 @@
 </div>
 
 
-@section Scripts{
-    <script>
-        function ReplyComment(id) {
-            $("#ParentId").val(id);
-            $("html, body").animate({ scrollTop: $("#myDiv").offset().top }, 1000);
-        }
-
-        function AddComment(id) { 
-            $.ajax({
-                url:"/Products/AddComments/" +id,
-                
-            })
-        }
-
-
-        function success() {
-            $("#UserName").val("");
-            $("#Email").val("");
-            $("#WebSite").val("");
-            $("#Comment").val("");
-            $("#ParentId").val("");
-        }
-    </script>
-        }
+@section Scripts {
+    <script src="/js/jquery.unobtrusive-ajax.js"></script>
+    <script src="/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/AddComment.js"></script>
+}

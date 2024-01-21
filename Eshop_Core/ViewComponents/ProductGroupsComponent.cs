@@ -8,15 +8,15 @@ namespace Eshop_Core.ViewComponents
 {
     public class ProductGroupsComponent : ViewComponent
     {
-        IProductGroupRepository _groupRepository;
-        public ProductGroupsComponent(IProductGroupRepository groupRepository)
+        IProductGroupService _groupservice;
+        public ProductGroupsComponent(IProductGroupService groupservice)
         {
-            _groupRepository = groupRepository;
+            _groupservice = groupservice;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var ProductGroups = _groupRepository.GetAllGroups();
+            var ProductGroups = _groupservice.GetAllGroups();
             return View("/Views/Components/ProductsGroupComponent.cshtml", ProductGroups);
         }
     }

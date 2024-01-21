@@ -7,9 +7,9 @@ namespace Eshop_Core.Pages.Admin.ProductFeatures
 {
     public class DeleteModel : PageModel
     {
-        IProductRepository _Product;
+        IProductService _Product;
 
-        public DeleteModel(IProductRepository Product)
+        public DeleteModel(IProductService Product)
         {
             _Product = Product;
         }

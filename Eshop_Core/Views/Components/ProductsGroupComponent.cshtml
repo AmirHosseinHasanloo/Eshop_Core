@@ -4,12 +4,12 @@
         <li>
             @foreach (var Groups in Model.Where(G => G.ParentId == null))
             {
-                <h2><a href="">@Groups.GroupTitle</a></h2>
+                <h2><a href="/Products/FilterProduct?selectedGroups=@Groups.GroupId">@Groups.GroupTitle</a></h2>
 
                 <ul class="child-category-menu">
                     @foreach (var SubGroup in Model.Where(G => G.ParentId == Groups.GroupId))
                     {
-                        <li><h2><a href=""> @SubGroup.GroupTitle </a> <span>(10)</span></h2></li>
+                        <li><h2><a href="/Products/FilterProduct?selectedGroups=@SubGroup.GroupId"> @SubGroup.GroupTitle </a> <span>(@SubGroup.SelectedGroups.Count)</span></h2></li>
                     }
                 </ul>
             }

@@ -1,1 +1,53 @@
-﻿@model IEnumerable<DataLayer.Entities.ProductComments>
+﻿@using Core.Convertors
+@model Tuple<List<DataLayer.Entities.ProductComments>,int>
+
+@{
+    Layout = null;
+}
+
+@if (Model.Item1.Any())
+{
+        <li>
+            <div class="clearfix"></div>
+            <ul>
+                @foreach (var comments in Model.Item1.Where(pc => pc.ParentId == null))
+                {
+                    <li>
+                        <a onclick="ReplyComment(@comments.CommentId)" id="Replybtn" class="reply-button">پاسخ</a>
+
+                        <img src="/img/avatar.jpg" width="65">
+                        <div>
+                            <h5>ارسال شده از : @comments.User.UserName : @comments.CreateDate.ToShamsi() </h5>
+                            <p>
+                                @comments.Comment
+                            </p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+
+                    foreach (var subComment in Model.Item1.Where(pc => pc.ParentId == comments.CommentId))
+                    {
+                        <li>
+                            <img src="/img/avatar.jpg" width="65">
+                            <div>
+                                <h5>پاسخ داده شده توسط : @subComment.User.UserName: @subComment.CreateDate.ToShamsi() </h5>
+                                <p>
+                                    @subComment.Comment
+                                </p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </li>
+                    }
+                }
+            </ul>
+
+        </li>
+}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= Model.Item2; i++)
+        {
+            <li class="page-item"><a class="page-link" onclick="ShowPageComments(@i)">@i</a></li>
+        }
+    </ul>
+</nav>

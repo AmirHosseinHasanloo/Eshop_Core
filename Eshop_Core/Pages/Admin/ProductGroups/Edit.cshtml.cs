@@ -9,10 +9,10 @@ namespace Eshop_Core.Pages.Admin.ProductGroups
 {
     public class EditModel : PageModel
     {
-        private IProductGroupRepository _groupRepository;
+        private IProductGroupService _groupRepository;
 
 
-        public EditModel(IProductGroupRepository groupRepository)
+        public EditModel(IProductGroupService groupRepository)
         {
             _groupRepository = groupRepository;
         }

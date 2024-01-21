@@ -18,4 +18,18 @@ namespace Core.DTOs
         public string FeatureTitle { get; set; }
         public List<string> Values { get; set; }
     }
+
+    public class FilterProductViewModel
+    {
+        public List<Product> Products { get; set; }
+        public int CurrentPage { get; set; }
+        public int PageCount { get; set; }
+    }
+
+    public class CompareItemViewModel
+    {
+        public int ProductId { get; set; }
+        public string ProductTitle { get; set; }
+        public string ImageName { get; set; }
+    }
 }

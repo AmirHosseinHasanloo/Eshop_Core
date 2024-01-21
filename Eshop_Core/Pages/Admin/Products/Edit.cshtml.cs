@@ -12,9 +12,9 @@ namespace Eshop_Core.Pages.Admin.Products
     {
         #region Injection
 
-        private IProductGroupRepository _productGroup;
-        private IProductRepository _product;
-        public EditModel(IProductGroupRepository productGroup, IProductRepository product)
+        private IProductGroupService _productGroup;
+        private IProductService _product;
+        public EditModel(IProductGroupService productGroup, IProductService product)
         {
             _productGroup = productGroup;
             _product = product;

@@ -11,9 +11,9 @@ namespace Eshop_Core.Pages.Admin.Features
     public class IndexModel : PageModel
     {
 
-        IFeatures _features;
+        IFeaturesService _features;
 
-        public IndexModel(IFeatures features)
+        public IndexModel(IFeaturesService features)
         {
             _features = features;
         }

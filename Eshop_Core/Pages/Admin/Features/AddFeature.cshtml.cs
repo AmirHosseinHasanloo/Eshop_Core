@@ -8,9 +8,9 @@ namespace Eshop_Core.Pages.Admin.Products
 {
     public class AddFeatureModel : PageModel
     {
-        private IFeatures _feature;
+        private IFeaturesService _feature;
 
-        public AddFeatureModel(IFeatures features)
+        public AddFeatureModel(IFeaturesService features)
         {
             _feature = features;
         }

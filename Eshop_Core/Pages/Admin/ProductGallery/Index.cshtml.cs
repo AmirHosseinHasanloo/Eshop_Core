@@ -9,9 +9,9 @@ namespace Eshop_Core.Pages.Admin.ProductGallery
 {
     public class IndexModel : PageModel
     {
-        IProductRepository _ProductRepository;
+        IProductService _ProductRepository;
 
-        public IndexModel(IProductRepository ProductRepository)
+        public IndexModel(IProductService ProductRepository)
         {
             _ProductRepository = ProductRepository;
         }

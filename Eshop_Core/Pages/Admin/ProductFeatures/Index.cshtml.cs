@@ -10,9 +10,9 @@ namespace Eshop_Core.Pages.Admin.ProductFeatures
 {
     public class IndexModel : PageModel
     {
-        IProductRepository _ProductRepository;
+        IProductService _ProductRepository;
 
-        public IndexModel(IProductRepository ProductRepository)
+        public IndexModel(IProductService ProductRepository)
         {
             _ProductRepository = ProductRepository;
         }

@@ -4,7 +4,6 @@ using System;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using DataLayer.Migrations;
 using Eshop_Core.Utilties;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +19,10 @@ namespace Eshop_Core.Controllers
 {
     public class AccountController : Controller
     {
-        IUsersRepository _usersRepository;
+        IUsersService _usersRepository;
         IViewRenderService _viewRenderService;
 
-        public AccountController(EshopContext context, IUsersRepository usersRepository, IViewRenderService viewRenderService)
+        public AccountController(EshopContext context, IUsersService usersRepository, IViewRenderService viewRenderService)
         {
             _usersRepository = usersRepository;
             _viewRenderService = viewRenderService;

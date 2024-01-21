@@ -11,9 +11,9 @@ namespace Eshop_Core.Pages.Admin.ProductGroups
 {
     public class IndexModel : PageModel
     {
-        private IProductGroupRepository _groupRepository;
+        private IProductGroupService _groupRepository;
 
-        public IndexModel(IProductGroupRepository groupRepository)
+        public IndexModel(IProductGroupService groupRepository)
         {
             _groupRepository = groupRepository;
         }

@@ -8,10 +8,10 @@ namespace Eshop_Core.Pages.Admin.ProductGroups
 {
     public class DeleteModel : PageModel
     {
-        private IProductGroupRepository _groupRepository;
+        private IProductGroupService _groupRepository;
 
 
-        public DeleteModel(IProductGroupRepository groupRepository)
+        public DeleteModel(IProductGroupService groupRepository)
         {
             _groupRepository = groupRepository;
         }

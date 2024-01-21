@@ -1,0 +1,31 @@
+﻿@model IEnumerable<DataLayer.Entities.Product>
+@{
+    ViewData["Title"] = "جستجو";
+}
+
+<section class="last-products">
+
+    <header>
+        @if (ViewBag.q != "")
+        {
+            <h3>
+                @Model.Count()
+                نتیجه برای @ViewBag.q
+            </h3>
+        }
+        <a> جستجو </a>
+    </header>
+
+    <article>
+
+        @foreach (var item in Model)
+        {
+            <partial name="_ProductBox" model="item" />
+        }
+        <div class="clearfix"></div>
+    </article>
+</section>
+
+
+
+

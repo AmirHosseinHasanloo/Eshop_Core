@@ -1,0 +1,14 @@
+﻿@model List<Core.DTOs.CompareItemViewModel>
+    <header><h3> لیست مقایسه </h3></header>
+    <article>
+        <ul>
+           @foreach (var item in Model)
+        {
+            <li>
+                <i class="delete-compare">X</i>
+                <a href="/Product/@item.ProductId"> @item.ProductTitle </a>
+            </li>
+        }
+        </ul>
+        <a href="/Compare" class="show-compare-list border-radius">مشاهده لیست مقایسه</a>
+    </article>

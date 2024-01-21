@@ -12,9 +12,9 @@ namespace Eshop_Core.Pages.Admin.Products
 {
     public class AddModel : PageModel
     {
-        private IProductGroupRepository _productGroup;
-        private IProductRepository _product;
-        public AddModel(IProductGroupRepository productGroup, IProductRepository product)
+        private IProductGroupService _productGroup;
+        private IProductService _product;
+        public AddModel(IProductGroupService productGroup, IProductService product)
         {
             _productGroup = productGroup;
             _product = product;

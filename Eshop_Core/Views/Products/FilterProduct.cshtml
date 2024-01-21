@@ -1,0 +1,101 @@
+﻿@model Core.DTOs.FilterProductViewModel
+@{
+    ViewData["Title"] = "فیلتر محصولات";
+    List<DataLayer.Entities.ProductGroup> groups = ViewBag.ProductGroups as List<DataLayer.Entities.ProductGroup>;
+    List<int> selectedGroup = ViewBag.selectedGroups ?? new List<int>();
+}
+
+<div class="container margin-top-25">
+    <aside class="col-md-3 col-sm-4 right-side-content">
+        <!-- Category -->
+        <section class="border-radius category-side">
+            <header><h3> فیلتر نمایش محصول </h3></header>
+            <article>
+                <ul class="category-menu">
+                    <form asp-controller="Products" asp-action="FilterProduct" id="FilterForm">
+
+                        <input type="hidden" name="pageId" value="@ViewBag.pageId" id="pageId" />
+
+                        <lable class="control-label"> عنوان محصول : </lable>
+                        <input class="form-control" name="title" value="@ViewBag.ProductTitle" placeholder="عنوان محصول را وارد کنید" />
+                        <br />
+
+                        <lable class="control-label"> کف قیمت : </lable>
+                        <input type="number" name="startPrice" value="@ViewBag.startPrice" class="form-control" placeholder="قیمت محصول را وارد کنید" />
+                        <br />
+
+                        <lable class="control-label"> سقف قیمت : </lable>
+                        <input type="number" name="endPrice" value="@ViewBag.endPrice" class="form-control" placeholder="قیمت محصول را وارد کنید" />
+                        <br />
+
+                        <br />
+
+                        <div class="form-group">
+                            <label>فیلتر براساس گروه محصول</label>
+                            @foreach (var group in groups.Where(g => g.ParentId == null))
+                            {
+                                <div class="checkbox">
+                                    <label class="text-info">
+                                        <input @((selectedGroup.Any(g => g == group.GroupId) ? "checked" : "")) type="checkbox" name="selectedGroups" value="@group.GroupId">@group.GroupTitle
+                                    </label>
+
+                                    @foreach (var subGroup in groups.Where(sg => sg.ParentId == group.GroupId))
+                                    {
+                                        <div class="checkbox">
+                                            <label>
+                                                <input @((selectedGroup.Any(g => g == subGroup.GroupId) ? "checked" : "")) type="checkbox" name="selectedGroups" value="@subGroup.GroupId">@subGroup.GroupTitle
+                                            </label>
+                                        </div>
+                                    }
+
+                                </div>
+                            }
+                        </div>
+
+                        <button type="submit" class="btn btn-block btn-success">اعمال فیلتر</button>
+                    </form>
+                </ul>
+            </article>
+        </section>
+        <!-- End Category -->
+    </aside>
+    <div class="col-md-9 col-sm-8 left-side-content internal-style">
+        <ol class="breadcrumb">
+            <li><a href="/">خانه</a></li>
+            <li><a href="/Products/filterProduct" class="active"> فیلتر نمایش محصول </a></li>
+        </ol>
+
+        <section class="last-products archive-products row">
+            <article>
+                @foreach (var item in Model.Products)
+                {
+                    <partial name="_ProductBox" model="item" />
+                }
+            </article>
+        </section>
+
+        @if (Model.PageCount >= 1)
+        {
+            <div class="pagination-layer row text-center">
+                <ul class="pagination">
+                    @for (int i = 1; i <= Model.PageCount; i++)
+                    {
+                        <li><a onclick="ChangePage(@i)">@i</a></li>
+                    }
+                </ul>
+            </div>
+        }
+
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+@section Scripts {
+    <script>
+        function ChangePage(pageId) {
+            $("#pageId").val(pageId);
+            $("#FilterForm").submit();
+        }
+    </script>
+}
+

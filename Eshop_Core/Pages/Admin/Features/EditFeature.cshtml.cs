@@ -9,9 +9,9 @@ namespace Eshop_Core.Pages.Admin.Features
     public class EditFeatureModel : PageModel
     {
 
-        private IFeatures _feature;
+        private IFeaturesService _feature;
 
-        public EditFeatureModel(IFeatures features)
+        public EditFeatureModel(IFeaturesService features)
         {
             _feature = features;
         }

@@ -6,9 +6,9 @@ namespace Eshop_Core.ViewComponents
 {
     public class Last24ProductsComponent : ViewComponent
     {
-        IProductRepository _ProductRepository;
+        IProductService _ProductRepository;
 
-        public Last24ProductsComponent(IProductRepository ProductRepository)
+        public Last24ProductsComponent(IProductService ProductRepository)
         {
             _ProductRepository = ProductRepository;
         }

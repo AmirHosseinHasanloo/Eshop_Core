@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Core.Services.Interfaces;
 using Core.Services;
+using System.Net;
 
 namespace Eshop_Core
 {
@@ -39,11 +40,22 @@ namespace Eshop_Core
             });
             #endregion
 
+            #region Session
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = "Eshop_Session";
+                options.IdleTimeout = TimeSpan.FromDays(1);
+                options.Cookie.IsEssential = true;
+            });
+            #endregion
+
             #region IoC
-            services.AddTransient<IUsersRepository, UsersRepository>();
-            services.AddTransient<IFeatures, Features>();
-            services.AddTransient<IProductGroupRepository, ProductGroupRepository>();
-            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IFeaturesService, FeaturesService>();
+            services.AddTransient<IProductGroupService, ProductGroupService>();
+            services.AddTransient<IProductService, ProductService>();
 
             services.AddTransient<IViewRenderService, RenderViewToString>();
 
@@ -78,6 +90,8 @@ namespace Eshop_Core
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
+
 
             app.UseRouting();
 

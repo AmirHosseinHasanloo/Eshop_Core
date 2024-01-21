@@ -11,8 +11,8 @@ namespace Eshop_Core.Pages.Admin.Products
 {
     public class IndexModel : PageModel
     {
-        IProductRepository _productRepository;
-        public IndexModel(IProductRepository productRepository)
+        IProductService _productRepository;
+        public IndexModel(IProductService productRepository)
         {
             _productRepository = productRepository;
         }

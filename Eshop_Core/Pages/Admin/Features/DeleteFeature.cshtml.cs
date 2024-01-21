@@ -7,9 +7,9 @@ namespace Eshop_Core.Pages.Admin.Features
 {
     public class DeleteFeatureModel : PageModel
     {
-        private IFeatures _feature;
+        private IFeaturesService _feature;
 
-        public DeleteFeatureModel(IFeatures features)
+        public DeleteFeatureModel(IFeaturesService features)
         {
             _feature = features;
         }

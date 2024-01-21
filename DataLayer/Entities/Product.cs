@@ -13,7 +13,7 @@ namespace DataLayer.Entities
     {
         public Product()
         {
-            
+
         }
 
         [Key]

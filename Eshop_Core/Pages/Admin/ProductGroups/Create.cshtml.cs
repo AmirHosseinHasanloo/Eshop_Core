@@ -9,9 +9,9 @@ namespace Eshop_Core.Pages.Admin.ProductGroups
 {
     public class CreateModel : PageModel
     {
-        private IProductGroupRepository _groupRepository;
+        private IProductGroupService _groupRepository;
 
-        public CreateModel(IProductGroupRepository groupRepository)
+        public CreateModel(IProductGroupService groupRepository)
         {
             _groupRepository = groupRepository;
         }

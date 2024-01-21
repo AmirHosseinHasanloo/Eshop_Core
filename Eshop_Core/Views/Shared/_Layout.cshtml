@@ -76,20 +76,15 @@
         <div class="container">
             <span class="responsive-list"><i class="fa fa-th-list"></i></span>
             <ul>
-                <li><a href=""> منوی شماره یک </a></li>
-                <li><a href=""> منوی شماره یک </a></li>
-                <li><a href=""> منوی شماره یک </a></li>
-                <li><a href=""> منوی شماره یک </a></li>
-                <li><a href=""> منوی شماره یک </a></li>
-                <li><a href=""> منوی شماره یک </a></li>
-                <li><a href=""> منوی شماره یک </a></li>
+                <li><a href="/"> صفحه اصلی </a></li>
+                <li><a href="/Products/FilterProduct"> فیلتر نمایش محصولات </a></li>
             </ul>
 
             <!-- Search -->
             <div class="form-search">
                 <span><i class="fa fa-search"></i></span>
-                <form action="" method="get">
-                    <input type="text" placeholder=" جستجو کنید ..." class="border-radius">
+                <form action="/Search?q=">
+                    <input name="q" type="text" placeholder=" جستجو کنید ..." class="border-radius">
                     <button type="submit" class="border-radius"> بگرد </button>
                 </form>
             </div>
@@ -99,77 +94,30 @@
     </nav>
     <!-- End Mega Menu -->
     <!-- slider -->
-    @RenderSection("Slider",required:false)
+    @RenderSection("Slider", required: false)
     <!-- End slider -->
 
     <div class="container margin-top-25">
         <aside class="col-md-3 col-sm-4 right-side-content">
             <!-- Basket -->
-            <section class="border-radius basket-side">
-                <header><h3> سبد خرید شما  </h3></header>
-                <article>
-                    <ul>
-                        <li>
-                            <img class="border-radius" src="/img/1.jpg">
-                            <div class="left-basket">
-                                <a href="">محصول شماره یک <span class="border-radius"> 2 </span></a>
-                            </div>
-                        </li>
-                        <li>
-                            <img class="border-radius" src="/img/1.jpg">
-                            <div class="left-basket">
-                                <a href="">محصول شماره یک <span class="border-radius"> 2 </span></a>
-                            </div>
-                        </li>
-                        <li>
-                            <img class="border-radius" src="/img/1.jpg">
-                            <div class="left-basket">
-                                <a href="">محصول شماره یک <span class="border-radius"> 2 </span></a>
-                            </div>
-                        </li>
-                    </ul>
-                    <a href="" class="show-basket-button border-radius">مشاهده سبد خرید</a>
-                </article>
-            </section>
+            @RenderSection("Basket", required: false)
             <!-- End Basket -->
             <!-- compare -->
-            <section class="border-radius compare-side">
-                <header><h3> لیست مقایسه </h3></header>
-                <article>
-                    <ul>
-                        <li>
-                            <i class="delete-compare">X</i>
-                            <a href="">محصول شماره یک </a>
-                        </li>
-                        <li>
-                            <i class="delete-compare">X</i>
-                            <a href="">محصول شماره یک </a>
-                        </li>
-                        <li>
-                            <i class="delete-compare">X</i>
-                            <a href="">محصول شماره یک </a>
-                        </li>
-                    </ul>
-                    <a href="" class="show-compare-list border-radius">مشاهده لیست مقایسه</a>
-                </article>
-            </section>
+            @RenderSection("CompareList", required: false)
             <!-- End compare -->
             <!-- Category -->
-            <section class="border-radius category-side">
-                <header><h3> دسته بندی ها </h3></header>
-                <!-- ProductGroups -->
-                @await Component.InvokeAsync("ProductGroupsComponent")
-                <!-- End ProductGroups -->
-            </section>
+            @RenderSection("Groups", required: false)
             <!-- End Category -->
             <!-- Category -->
             <!-- End Category -->
         </aside>
+
+        <!--render Body-->
+        @RenderBody()
+        <!-- /render Body-->
+
         <div class="col-md-9 col-sm-8 left-side-content">
-
-            @RenderBody()
-            @RenderSection("Last24Products",required:false)
-
+            @RenderSection("Last24Products", required: false)
         </div>
         <div class="clearfix"></div>
     </div>
@@ -248,6 +196,6 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/owl.carousel.js"></script>
     <script src="/js/script.js"></script>
-    @RenderSection("Scripts",required:false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

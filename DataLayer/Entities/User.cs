@@ -9,22 +9,22 @@ namespace DataLayer.Entities
     {
         public User()
         {
-            
+
         }
         [Key]
         public int UserId { get; set; }
 
-        [Display(Name ="نقش کاربر")]
+        [Display(Name = "نقش کاربر")]
         public int RoleId { get; set; }
 
-        [Display(Name = "نام کاربری")] 
-        [Required(ErrorMessage ="لطفا {0} را وارد کنید")]
-        [MaxLength(350,ErrorMessage ="نام کاربری شما نمی تواند شامل بیش از 350 کاراکتر باشد")]
+        [Display(Name = "نام کاربری")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(350, ErrorMessage = "نام کاربری شما نمی تواند شامل بیش از 350 کاراکتر باشد")]
         public string UserName { get; set; }
 
         [Display(Name = "ایمیل")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [EmailAddress(ErrorMessage ="لطفا یک ایمیل معتبر وارد کنید")]
+        [EmailAddress(ErrorMessage = "لطفا یک ایمیل معتبر وارد کنید")]
         public string Email { get; set; }
 
         [Display(Name = "رمز عبور")]
@@ -57,5 +57,7 @@ namespace DataLayer.Entities
 
         //Navigation property
         public virtual Role Roles { get; set; }
+
+        public ICollection<ProductComments> ProductComments { get; set; }
     }
 }
