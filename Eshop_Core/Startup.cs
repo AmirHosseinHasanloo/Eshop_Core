@@ -56,6 +56,7 @@ namespace Eshop_Core
             services.AddTransient<IFeaturesService, FeaturesService>();
             services.AddTransient<IProductGroupService, ProductGroupService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ISliderService, SliderService>();
 
             services.AddTransient<IViewRenderService, RenderViewToString>();
 

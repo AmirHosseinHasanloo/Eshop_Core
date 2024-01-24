@@ -54,12 +54,5 @@
 
 
 @section Scripts {
-    <script>
-
-        function AddToCompareList(id) {
-            $.get("/Compare/AddToCompareList/" + id, function (result) {
-                $("#CompareList").html(result);
-            })
-        }
-    </script>
+    <script src="/js/Compare.js"></script>
 }

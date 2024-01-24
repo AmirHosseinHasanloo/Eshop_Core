@@ -1,5 +1,4 @@
-﻿
-function Success() {
+﻿function Success() {
 
     $("#comment_Comment").val("");
 

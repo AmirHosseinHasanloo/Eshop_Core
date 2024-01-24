@@ -1,0 +1,59 @@
+﻿@page
+@model Eshop_Core.Pages.Admin.Slider.IndexModel
+@{
+    ViewData["Title"] = "اسلایدر ها";
+}
+
+
+<div class="clearfix"></div>
+<br />
+<p>
+    <a class="btn btn-success" href="Slider/Create">افزودن اسلاید</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                عنوان
+            </th>
+            <th>
+                تصویر
+            </th>
+            <th>
+                تاریخ شروع
+            </th>
+            <th>
+                تاریخ پایان
+            </th>
+            <th>
+                دستورات
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Sliders)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td class="col-md-3">
+                    <a href="@item.Url">
+                        <img src="/SliderPics/@item.ImageName" class="img-responsive img-thumbnail img-fluid" />
+                    </a>
+                </td>
+                <td>
+                    @item.StartDate
+                </td>
+                <td>
+                    @item.EndTime
+                </td>
+
+                <td>
+                    <a class="btn btn-warning" asp-page="./Edit" asp-route-id="@item.SliderId">ویرایش</a> |
+                    <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.SliderId">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

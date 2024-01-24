@@ -1,6 +1,7 @@
 ﻿using Core.Services.Interfaces;
 using DataLayer;
 using DataLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,10 @@ namespace Eshop_Core.Controllers
         [HttpPost]
         public IActionResult CreateComment(ProductComments comment)
         {
-            _ProductService.AddProductComment(comment, User.Identity.Name);
+            if (User.Identity.IsAuthenticated)
+            {
+                _ProductService.AddProductComment(comment, User.Identity.Name);
+            }
             return PartialView("ShowComments", _ProductService.GetCommentsForProduct(comment.ProductId));
         }
 

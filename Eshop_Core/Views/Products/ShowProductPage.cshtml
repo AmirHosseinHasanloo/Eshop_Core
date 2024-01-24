@@ -94,25 +94,32 @@
 
                     <!-- Add Comment -->
                     <!-- End Add Comment -->
-                    <div>
-                        <form asp-controller="Products" asp-action="CreateComment"
-                              data-ajax="true"
-                              data-ajax-method="true"
-                              data-ajax-mode="replace"
-                              data-ajax-update="#listComment"
-                              data-ajax-success="Success">
-                            <input type="hidden" value="@ProductPage.ProductId" name="comment.ProductId" />
-                            <input type="hidden" name="comment.ParentId" id="comment_ParentId" />
-                            <div class="col-md-12">
-                                <textarea class="form-control" name="comment.Comment" id="comment_Comment" placeholder="متن دیدگاه"></textarea>
-                                <button class="btn btn-primary" type="submit">افزودن دیدگاه در مورد محصول</button>
-                            </div>
-                            <div class="clearfix"></div>
-                        </form>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div>
+                            <form asp-controller="Products" asp-action="CreateComment"
+                                  data-ajax="true"
+                                  data-ajax-method="true"
+                                  data-ajax-mode="replace"
+                                  data-ajax-update="#listComment"
+                                  data-ajax-success="Success">
+                                <input type="hidden" value="@ProductPage.ProductId" name="comment.ProductId" />
+                                <input type="hidden" name="comment.ParentId" id="comment_ParentId" />
+                                <div class="col-md-12">
+                                    <textarea class="form-control" name="comment.Comment" id="comment_Comment" placeholder="متن دیدگاه"></textarea>
+                                    <button class="btn btn-primary" type="submit">افزودن دیدگاه در مورد محصول</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </form>
 
-
-
-                    </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info text-center">
+                            <p class="help-block">برای به اشتراک گذاشتن نظرتان ابتدا باید وارد حساب کاربریتان شوید.</p>
+                        </div>
+                    }
 
                     <!-- Show Product Comments List -->
 
@@ -142,8 +149,33 @@
 
 
 @section Scripts {
-    <script src="/js/jquery.unobtrusive-ajax.js"></script>
     <script src="/js/jquery.unobtrusive-ajax.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="/js/AddComment.js"></script>
+    <script>
+
+        function Success() {
+
+            $("#comment_Comment").val("");
+
+            Swal.fire({
+                title: "موفقیت آمیز!",
+                text: "کاربر گرامی نظر شما با موفقیت ثبت شد",
+                icon: "success"
+            });
+        }
+
+        function ReplyComment(id) {
+            $("#comment_ParentId").val(id);
+            $("html, body").animate({ scrollTop: $("#comments").offset().top }, 1000);
+        }
+
+        $(function () {
+            $("#listComment").load("/Products/ShowComments/@ProductPage.ProductId")
+        });
+
+        function ShowPageComments(id) {
+            $("#listComment").load("/Products/ShowComments/@ProductPage.ProductId" + "?pageId=" + id)
+        }
+
+    </script>
 }

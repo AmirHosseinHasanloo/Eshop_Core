@@ -4,6 +4,7 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EshopContext))]
-    partial class EshopContextModelSnapshot : ModelSnapshot
+    [Migration("20240123163254_Mig_AddSlider")]
+    partial class Mig_AddSlider
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,41 +257,6 @@ namespace DataLayer.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("SelectedGroups");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.Slider", b =>
-                {
-                    b.Property<int>("SliderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SliderId"));
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImageName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsSliderActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("nvarchar(120)");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("nvarchar(120)");
-
-                    b.HasKey("SliderId");
-
-                    b.ToTable("Sliders");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.User", b =>

@@ -77,11 +77,30 @@ namespace Eshop_Core.Controllers
         {
             List<Core.DTOs.CompareItemViewModel> compareList = new List<Core.DTOs.CompareItemViewModel>();
 
-            if (!HttpContext.Session.TryGetValue("Compare", out var compareData))
+            if (HttpContext.Session.TryGetValue("Compare", out var compareData))
             {
-                        compareList = JsonSerializer.Deserialize<List<Core.DTOs.CompareItemViewModel>>(compareData);
+                compareList = JsonSerializer.Deserialize<List<Core.DTOs.CompareItemViewModel>>(compareData);
             }
             return PartialView(compareList);
+        }
+
+
+        public IActionResult DeleteFromList(int id)
+        {
+            List<Core.DTOs.CompareItemViewModel> compareList = new List<Core.DTOs.CompareItemViewModel>();
+
+            if (HttpContext.Session.TryGetValue("Compare", out var compareData))
+            {
+                compareList = JsonSerializer.Deserialize<List<Core.DTOs.CompareItemViewModel>>(compareData);
+
+                int productIdAtSession = compareList.FindIndex(p => p.ProductId == id);
+                compareList.RemoveAt(productIdAtSession);
+
+                HttpContext.Session.Set("Compare", Encoding.UTF8.GetBytes(JsonSerializer.Serialize(compareList)));
+
+            }
+
+            return PartialView("CompareList", compareList);
         }
 
     }
