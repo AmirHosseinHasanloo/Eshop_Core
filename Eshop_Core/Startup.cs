@@ -52,11 +52,12 @@ namespace Eshop_Core
             #endregion
 
             #region IoC
-            services.AddTransient<IUsersService, UsersService>();
-            services.AddTransient<IFeaturesService, FeaturesService>();
-            services.AddTransient<IProductGroupService, ProductGroupService>();
-            services.AddTransient<IProductService, ProductService>();
-            services.AddTransient<ISliderService, SliderService>();
+            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IFeaturesService, FeaturesService>();
+            services.AddScoped<IProductGroupService, ProductGroupService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ISliderService, SliderService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             services.AddTransient<IViewRenderService, RenderViewToString>();
 

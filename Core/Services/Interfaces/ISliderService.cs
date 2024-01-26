@@ -13,9 +13,11 @@ namespace Core.Services.Interfaces
         IEnumerable<Slider> GetAllSliders();
         Slider GetSliderById(int id);
         void AddSlider(Slider slider, IFormFile image);
-        void UpdateSlider(int sliderId, IFormFile image);
+        void UpdateSlider(Slider slide, IFormFile? image);
         void RemoveSlider(int id);
         string SaveFiles(IFormFile file, string path);
         string GenerateFileNameWithPath(IFormFile file);
+        Task<List<Slider>> GetSlidersForSlider();
+        bool IsChecked(Slider slide);
     }
 }

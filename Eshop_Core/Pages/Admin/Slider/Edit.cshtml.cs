@@ -1,7 +1,10 @@
+using Core.Convertors;
 using Core.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.Globalization;
 
 namespace Eshop_Core.Pages.Admin.Slider
 {
@@ -20,17 +23,33 @@ namespace Eshop_Core.Pages.Admin.Slider
         public void OnGet(int id)
         {
             slider = _sliderService.GetSliderById(id);
-
-            ViewData["endDate"] = slider.EndTime;
-            ViewData["startDate"]= slider.StartDate;
         }
 
-        public IActionResult OnPost(IFormFile slide)
+        public IActionResult OnPost(IFormFile slide, bool IsActive, string startDate = "", string endDate = "")
         {
+            if (startDate != "")
+            {
+                string[] stDate = startDate.Split("/");
+
+                slider.StartDate = new DateTime(int.Parse(stDate[0]), int.Parse(stDate[1]),
+                    int.Parse(stDate[2]), new PersianCalendar());
+            }
+
+            if (endDate != "")
+            {
+                string[] enDate = endDate.Split("/");
+
+                slider.EndTime = new DateTime(int.Parse(enDate[0]), int.Parse(enDate[1]),
+                    int.Parse(enDate[2]), new PersianCalendar());
+            }
+
+
             if (!ModelState.IsValid)
                 return Page();
 
-            _sliderService.UpdateSlider(slider.SliderId, slide);
+            slider.IsSliderActive = IsActive;
+
+            _sliderService.UpdateSlider(slider, slide);
 
             return RedirectToPage("Index");
         }

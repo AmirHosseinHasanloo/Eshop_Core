@@ -58,6 +58,7 @@ namespace DataLayer.Entities
         //Navigation property
         public virtual Role Roles { get; set; }
 
+        public ICollection<Order> Orders { get; set; }
         public ICollection<ProductComments> ProductComments { get; set; }
     }
 }

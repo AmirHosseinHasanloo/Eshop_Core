@@ -16,20 +16,31 @@
                 <input asp-for="slider.Title" class="form-control" />
                 <span asp-validation-for="slider.Title" class="text-danger"></span>
 
-                <label asp-for="slider.StartDate" class="control-label"></label>
-                <input asp-for="slider.StartDate" />
-                <span asp-validation-for="slider.StartDate" class="text-danger"></span>
+                <div class="checkbox">
+                    <label asp-for="slider.StartDate" class="control-label"></label>
+                    <input type="text" asp-for="slider.StartDate" name="startDate" />
+                    <span asp-validation-for="slider.StartDate" class="text-danger"></span>
+                </div>
 
-                <label asp-for="slider.EndTime" class="control-label"></label>
-                <input asp-for="slider.EndTime" />
-                <span asp-validation-for="slider.EndTime" class="text-danger"></span>
+                <div class="checkbox">
+                    <label asp-for="slider.EndTime" class="control-label"></label>
+                    <input type="text" asp-for="slider.EndTime" name="endDate" />
+                    <span asp-validation-for="slider.EndTime" class="text-danger"></span>
+                </div>
+
 
                 <label asp-for="slider.Url" class="control-label"></label>
                 <input asp-for="slider.Url" class="form-control" />
                 <span asp-validation-for="slider.Url" class="text-danger"></span>
 
-                <label asp-for="slider.ImageName" class="control-label"></label>
-                <input type="file" name="slide" class="form-control" />
+                <label asp-for="slider.IsSliderActive" class="control-label"></label>
+                <input asp-for="slider.IsSliderActive" />
+                <span asp-validation-for="slider.IsSliderActive" class="text-danger"></span>
+
+                <div class="checkbox">
+                    <label asp-for="slider.ImageName" class="control-label"></label>
+                    <input type="file" name="slide" class="form-control" />
+                </div>
 
             </div>
             <div class="form-group">
@@ -40,15 +51,15 @@
 </div>
 
 @section Scripts {
-    <script src="/js/kendo.all.min.js"></script>
+    @*  <partial name="KendoRefrence" /> *@
+
     <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.common.min.css" rel="stylesheet" />
     <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.default.min.css" rel="stylesheet" />
+    <script src="/js/kendo.all.min.js"></script>
 
     <script>
-        $(document).ready(function () {
-            // create DatePicker from input HTML element
-            $("#slider_StartDate").kendoDatePicker();
-            $("#slider_EndTime").kendoDatePicker();
-        });
+        // create DatePicker from input HTML element
+        $("#slider_StartDate").kendoDatePicker();
+        $("#slider_EndTime").kendoDatePicker();
     </script>
 }

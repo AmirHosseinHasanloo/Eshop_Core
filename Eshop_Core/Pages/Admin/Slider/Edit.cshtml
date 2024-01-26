@@ -12,45 +12,50 @@
         <form method="post" enctype="multipart/form-data">
 
             <input type="hidden" asp-for="slider.SliderId" />
+            <input type="hidden" asp-for="slider.ImageName" />
+            <input type="hidden" asp-for="slider.IsSliderActive" />
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="slider.Title" class="control-label"></label>
                 <input asp-for="slider.Title" class="form-control" />
                 <span asp-validation-for="slider.Title" class="text-danger"></span>
 
-                <label asp-for="slider.StartDate" class="control-label"></label>
-                <input asp-for="slider.StartDate" value="@ViewData["startDate"]" />
-                <span asp-validation-for="slider.StartDate" class="text-danger"></span>
+                <div class="checkbox">
+                    <label asp-for="slider.StartDate" class="control-label"></label>
+                    <input type="text" asp-for="slider.StartDate" name="startDate" />
+                    <span asp-validation-for="slider.StartDate" class="text-danger"></span>
+                </div>
 
-                <label asp-for="slider.EndTime" class="control-label"></label>
-                <input asp-for="slider.EndTime" value="@ViewData["endDate"]" />
-                <span asp-validation-for="slider.EndTime" class="text-danger"></span>
+                <div class="checkbox">
+                    <label asp-for="slider.EndTime" class="control-label"></label>
+                    <input type="text" asp-for="slider.EndTime" name="endDate" />
+                    <span asp-validation-for="slider.EndTime" class="text-danger"></span>
+                </div>
 
                 <label asp-for="slider.Url" class="control-label"></label>
                 <input asp-for="slider.Url" class="form-control" />
                 <span asp-validation-for="slider.Url" class="text-danger"></span>
 
+                <label asp-for="slider.IsSliderActive" class="control-label"></label>
+                <input type="checkbox" class="checkbox-inline" name="IsActive" @((Model.slider.IsSliderActive == true ? "checked" : "")) />
+
                 <label asp-for="slider.ImageName" class="control-label"></label>
                 <input type="file" name="slide" class="form-control" />
 
+                <label class="control-label"> تصویر فعلی </label>
+                <div class="col-md-12 col-sm-12 col-xs-12 col-xl-12">
+                    <img src="/SliderPics/@Model.slider.ImageName" class="figure-img img-responsive card-img-top" />
+                </div>
+
             </div>
             <div class="form-group">
-                <input type="submit" value="افزودن" class="btn btn-primary" />
+                <input type="submit" value="ویرایش" class="btn btn-warning" />
             </div>
         </form>
     </div>
 </div>
 
 @section Scripts {
-    <script src="/js/kendo.all.min.js"></script>
-    <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.common.min.css" rel="stylesheet" />
-    <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.default.min.css" rel="stylesheet" />
-
-    <script>
-        $(document).ready(function () {
-            // create DatePicker from input HTML element
-            $("#slider_StartDate").kendoDatePicker();
-            $("#slider_EndTime").kendoDatePicker();
-        });
-    </script>
+    <partial name="KendoRefrence" />
 }

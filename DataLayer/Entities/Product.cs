@@ -44,7 +44,7 @@ namespace DataLayer.Entities
         public virtual ICollection<ProductGallery> ProductGalleries { get; set; }
         public virtual ICollection<ProductFeature> ProductFeatures { get; set; }
         public virtual ICollection<ProductComments> ProductComments { get; set; }
-
+        public ICollection<Order> Orders { get; set; }
         #endregion
 
     }

@@ -3,6 +3,7 @@ using Core.Services.Interfaces;
 using DataLayer;
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,20 +30,21 @@ namespace Core.Services
             _context.SaveChanges();
         }
 
-        public void UpdateSlider(int sliderId, IFormFile image)
+        public void UpdateSlider(Slider slide, IFormFile? image)
         {
-            var slider = GetSliderById(sliderId);
-
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(),
-              "wwwroot/SliderPics", slider.ImageName);
-
-            if (File.Exists(filePath))
+            if (image != null)
             {
-                File.Delete(filePath);
-            }
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(),
+             "wwwroot/SliderPics", slide.ImageName);
 
-            slider.ImageName = SaveFiles(image, "SliderPics");
-            _context.Update(slider);
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+
+                slide.ImageName = SaveFiles(image, "SliderPics");
+            }
+            _context.Update(slide);
             _context.SaveChanges();
         }
 
@@ -90,6 +92,28 @@ namespace Core.Services
 
             _context.Sliders.Remove(slider);
             _context.SaveChanges();
+        }
+
+        public async Task<List<Slider>> GetSlidersForSlider()
+        {
+            DateTime today =
+                new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+
+            return await _context.Sliders
+                .Where(s => s.IsSliderActive && s.StartDate <= today && s.EndTime >= today).ToListAsync();
+        }
+
+        public bool IsChecked(Slider slide)
+        {
+            if (slide != null)
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
         }
     }
 }
