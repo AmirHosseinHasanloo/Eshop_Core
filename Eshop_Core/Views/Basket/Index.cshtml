@@ -1,0 +1,74 @@
+﻿@model IEnumerable<DataLayer.Entities.OrderDetail>
+@{
+    ViewData["Title"] = "سبد خرید شما";
+}
+@if (Model.Any())
+{
+    <div class="container baskets-style margin-top-20" id="PaymentBasket">
+
+        <div class="row basket-style">
+            <section class="border-radius">
+                <div class="tbl-head">
+                    <ul>
+                        <li> محصول </li>
+                        <li> تعداد یا وزن </li>
+                        <li> قیمت واحد </li>
+                        <li> قیمت کل   </li>
+                    </ul>
+                </div>
+                <div class="hidden-head">
+                    سبد خرید شما
+                </div>
+                <div class="tbl-body">
+                    <!-- Each Row -->
+                    <ul>
+                        @if (Model.Any())
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <li>
+                                    <a href="" class="product-image"><img class="border-radius" src="/ProductImage/@item.Product.ImageName"></a>
+                                    <div class="product-info-left-side">
+                                        <a href="" class="product-title"> <h3> @item.Product.Title </h3> </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>
+                                        <input type="number" name="points" min="1" max="30" step="1" onchange="UpdatePriceByCount(@item.OrderDetailId,$(this).val())" value="@item.Count">
+                                    </p>
+                                </li>
+                                <li>
+                                    <label class="lbl-hidden"> قیمت واحد : </label> <span class="lbl-price"> @item.Price.ToString("#,0") تومان </span>
+                                </li>
+                                <li>
+                                    <label class="lbl-hidden"> قیمت کل : </label> <span class="lbl-price"> @item.EndPrice.ToString("#,0") تومان </span>
+
+                                    <a onclick="DeleteOrderDetail(@item.OrderDetailId)"><i class="delete-button">X</i></a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <!-- End Each Row -->
+
+
+
+                </div>
+                <div class="tbl-footer">
+                    <ul>
+                        <li> قیمت کل : <span> @Model.Sum(o => o.EndPrice).ToString("#,0") تومان </span></li>
+                        <li class="total-price"> مبلغ قابل پرداخت : <span> @Model.Sum(o => o.EndPrice).ToString("#,0") تومان </span></li>
+                    </ul>
+                </div>
+                <button type="button" class="border-radius submit-basket-button"> پذیرفتن و ادامه خرید </button>
+                <div class="clearfix"></div>
+            </section>
+        </div>
+
+    </div>
+
+}
+
+@section Scripts {
+    <script src="/js/paymentbasket.js"></script>
+  
+}

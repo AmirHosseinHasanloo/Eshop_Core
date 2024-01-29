@@ -59,6 +59,7 @@ namespace Core.Services
                 if (orderDetail != null)
                 {
                     orderDetail.Count += 1;
+                    orderDetail.EndPrice = (orderDetail.Count * orderDetail.Price);
                     _context.OrderDetail.Update(orderDetail);
                     _context.Order.Update(order);
                     _context.SaveChanges();
@@ -82,9 +83,20 @@ namespace Core.Services
             return order.OrderId;
         }
 
-        public List<OrderdProductItemViewModel> GetOrdersForUserInBasket(string UserName)
+        public void DeleteOrderDetail(int orderDetailId, string userName)
         {
-            int userId = _context.Users.Single(u => u.UserName == UserName).UserId;
+            int userId = _context.Users.Single(u => u.UserName == userName).UserId;
+
+            var orderDetail = _context.OrderDetail.Include(od => od.Orders)
+                   .Single(od => od.OrderDetailId == orderDetailId && od.Orders.UserId == userId);
+            
+            _context.OrderDetail.Remove(orderDetail);
+            _context.SaveChanges();
+        }
+
+        public List<OrderdProductItemViewModel> GetOrdersForUserInBasket(string userName)
+        {
+            int userId = _context.Users.Single(u => u.UserName == userName).UserId;
 
             var orders = _context.Order.Where(o => !o.IsFainaly && o.UserId == userId).ToList();
 
@@ -106,12 +118,40 @@ namespace Core.Services
             return viewModel;
         }
 
+        public List<OrderDetail> GetOrdersForUserInPayment(string userName)
+        {
+            int userId = _context.Users.Single(u => u.UserName == userName).UserId;
+
+            return _context.OrderDetail
+                .Include(od => od.Orders).Include(od => od.Product)
+                .Where(od => od.Orders.UserId == userId && !od.Orders.IsFainaly).ToList();
+
+
+        }
+
+        public void UpdateOrderDetailPrice(int orderDetailId, int count, string userName)
+        {
+
+            int userId = _context.Users.Single(u => u.UserName == userName).UserId;
+
+            var orderDetail = _context.OrderDetail.Include(od => od.Orders)
+                   .Single(od => od.OrderDetailId == orderDetailId && od.Orders.UserId == userId);
+            orderDetail.Count = count;
+            orderDetail.EndPrice = (orderDetail.Price * orderDetail.Count);
+            _context.OrderDetail.Update(orderDetail);
+            _context.SaveChanges();
+
+            UpdateOrderPrice(orderDetail.OrderId);
+        }
+
         public void UpdateOrderPrice(int orderId)
         {
-            var order = _context.Order.Find(orderId);
+            var order = _context.Order.Include(o => o.OrderDetail)
+                .First(o => o.OrderId == orderId);
 
             order.OrderSum = _context.OrderDetail.Where(od => od.OrderId == orderId)
                 .Sum(od => od.Price * od.Count);
+
 
             _context.Order.Update(order);
             _context.SaveChanges();

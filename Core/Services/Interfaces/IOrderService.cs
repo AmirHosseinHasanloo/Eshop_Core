@@ -11,7 +11,10 @@ namespace Core.Services.Interfaces
     public interface IOrderService
     {
         int AddOrder(string UserName, int productId);
-        List<OrderdProductItemViewModel> GetOrdersForUserInBasket(string UserName);
+        List<OrderdProductItemViewModel> GetOrdersForUserInBasket(string userName);
         void UpdateOrderPrice(int orderId);
+        void UpdateOrderDetailPrice(int orderDetailId, int count, string userName);
+        void DeleteOrderDetail(int orderDetailId,string userName);
+        List<OrderDetail> GetOrdersForUserInPayment(string userName);
     }
 }

@@ -78,7 +78,7 @@ namespace Eshop_Core.Controllers
 
         public IActionResult Login()
         {
-            if (HttpContext.Request.Path.Value == "https://localhost:5001/Account/Login?recovery=true")
+            if (HttpContext.Request.Path.Value == "http://localhost:5000/Account/Login?recovery=true")
             {
                 ViewBag.RecoveryPassword = true;
             }
