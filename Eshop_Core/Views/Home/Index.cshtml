@@ -7,19 +7,17 @@
 }
 
 @section Last24Products {
-    @await Component.InvokeAsync("Last24ProductsComponent")
+    <div id="Main-Con">
+        @await Component.InvokeAsync("Last24ProductsComponent")
+    </div>
 }
 
 @section CompareList {
-    <section class="border-radius compare-side" id="CompareList">
-    </section>
+    <div id="CompareList">
+    </div>
 }
 @section Basket {
-    <section class="border-radius basket-side">
-        <header><h3> سبد خرید شما  </h3></header>
-        <article id="basket">
-            
-        </article>
+    <section class="border-radius basket-side" id="basket">
     </section>
 }
 

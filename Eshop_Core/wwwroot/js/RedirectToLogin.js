@@ -1,2 +1,2 @@
 ﻿var delay = 3000;
-setTimeout(function () { window.location = "https://localhost:5001/Account/Login" }, delay);
+setTimeout(function () { window.location = "http://localhost:5000/Account/Login" }, delay);

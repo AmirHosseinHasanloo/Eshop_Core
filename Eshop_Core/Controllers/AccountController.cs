@@ -222,5 +222,14 @@ namespace Eshop_Core.Controllers
         }
 
         #endregion
+ 
+        [HttpGet]
+        public bool IsUserLogedIn()
+        {
+            if (User.Identity.IsAuthenticated)
+                return true;
+
+            return false;
+        }
     }
 }

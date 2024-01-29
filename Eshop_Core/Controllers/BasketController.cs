@@ -23,6 +23,10 @@ namespace Eshop_Core.Controllers
 
         public IActionResult AddOrder(int id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return null;
+            }
 
             _orderService.AddOrder(User.Identity.Name, id);
 
@@ -31,6 +35,10 @@ namespace Eshop_Core.Controllers
 
         public IActionResult ListOrder()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return null;
+            }
             return PartialView(_orderService.GetOrdersForUserInBasket(User.Identity.Name));
         }
     }

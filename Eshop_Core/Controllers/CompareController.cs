@@ -1,5 +1,6 @@
 ﻿using Core.Services.Interfaces;
 using DataLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -47,8 +48,14 @@ namespace Eshop_Core.Controllers
             return View(compareList);
         }
 
+
         public IActionResult AddToCompareList(int id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return null;
+            }
+
             List<Core.DTOs.CompareItemViewModel> compareList = new List<Core.DTOs.CompareItemViewModel>();
 
             if (HttpContext.Session.TryGetValue("Compare", out var compareData))
@@ -75,12 +82,22 @@ namespace Eshop_Core.Controllers
 
         public IActionResult CompareList()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return null;
+            }
             List<Core.DTOs.CompareItemViewModel> compareList = new List<Core.DTOs.CompareItemViewModel>();
 
             if (HttpContext.Session.TryGetValue("Compare", out var compareData))
             {
                 compareList = JsonSerializer.Deserialize<List<Core.DTOs.CompareItemViewModel>>(compareData);
             }
+
+            if (compareList.Any())
+            {
+                return null;
+            }
+
             return PartialView(compareList);
         }
 

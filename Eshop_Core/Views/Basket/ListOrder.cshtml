@@ -1,18 +1,23 @@
 ﻿@using Core.DTOs
 @model List<OrderdProductItemViewModel>
 
-<ul>
-    @foreach (var item in Model)
-    {
-      
+
+<header><h3> سبد خرید شما  </h3></header>
+<article>
+    <ul>
+        @foreach (var item in Model)
+        {
+
             <li>
-            <img class="border-radius" src="/ProductImage/@item.ImageName">
+                <img class="border-radius" src="/ProductImage/@item.ImageName">
                 <div class="left-basket">
-                <a href=""> @item.Title <span class="border-radius"> @item.Count </span></a>
+                    <a href=""> @item.Title <span class="border-radius"> @item.Count </span></a>
                 </div>
             </li>
-       
-    }
 
-</ul>
-<a href="" class="show-basket-button border-radius">مشاهده سبد خرید</a>
+        }
+
+    </ul>
+    <a href="" class="show-basket-button border-radius">مشاهده سبد خرید</a>
+</article>
+
