@@ -25,6 +25,17 @@ namespace Core.Services.Interfaces
             _context.SaveChanges();
         }
 
+        public void EditUser(User user)
+        {
+            _context.Update(user);
+            _context.SaveChanges();
+        }
+
+        public User GetUserByUserName(string userName)
+        {
+            return _context.Users.Single(u => u.UserName == userName);
+        }
+
         public User GetUserForActiveAccount(string activecode)
         {
             return _context.Users.FirstOrDefault(u => u.ActiveCode == activecode);

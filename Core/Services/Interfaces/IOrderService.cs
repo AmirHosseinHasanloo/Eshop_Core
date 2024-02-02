@@ -13,8 +13,12 @@ namespace Core.Services.Interfaces
         int AddOrder(string UserName, int productId);
         List<OrderdProductItemViewModel> GetOrdersForUserInBasket(string userName);
         void UpdateOrderPrice(int orderId);
+        void UpdateOrder(Order order);
+        int GetUsersOpenOrderId(string userName);
         void UpdateOrderDetailPrice(int orderDetailId, int count, string userName);
-        void DeleteOrderDetail(int orderDetailId,string userName);
+        void DeleteOrderDetail(int orderDetailId, string userName);
         List<OrderDetail> GetOrdersForUserInPayment(string userName);
+        bool CheckIsUserAllowToPay(string userName);
+        Order GetOrderForPayment(int orderId);
     }
 }

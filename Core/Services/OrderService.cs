@@ -83,15 +83,37 @@ namespace Core.Services
             return order.OrderId;
         }
 
+        public bool CheckIsUserAllowToPay(string userName)
+        {
+            int userId = _context.Users.Single(u => u.UserName == userName).UserId;
+
+
+            var CheckUser = _context.Users.Single(u => u.UserId == userId);
+
+            if (CheckUser.location == null || CheckUser.PhoneNumber == null || CheckUser.NationalityCode == null
+                || CheckUser.PostCode == null)
+            {
+                return false;
+            }
+
+
+            return true;
+        }
+
         public void DeleteOrderDetail(int orderDetailId, string userName)
         {
             int userId = _context.Users.Single(u => u.UserName == userName).UserId;
 
             var orderDetail = _context.OrderDetail.Include(od => od.Orders)
                    .Single(od => od.OrderDetailId == orderDetailId && od.Orders.UserId == userId);
-            
+
             _context.OrderDetail.Remove(orderDetail);
             _context.SaveChanges();
+        }
+
+        public Order GetOrderForPayment(int orderId)
+        {
+            return _context.Order.Single(o => !o.IsFainaly && o.OrderId == orderId);
         }
 
         public List<OrderdProductItemViewModel> GetOrdersForUserInBasket(string userName)
@@ -127,6 +149,19 @@ namespace Core.Services
                 .Where(od => od.Orders.UserId == userId && !od.Orders.IsFainaly).ToList();
 
 
+        }
+
+        public int GetUsersOpenOrderId(string userName)
+        {
+            int userid = _context.Users.Single(u => u.UserName == userName).UserId;
+
+            return _context.Order.SingleOrDefault(o => o.UserId == userid && !o.IsFainaly).OrderId;
+        }
+
+        public void UpdateOrder(Order order)
+        {
+            _context.Update(order);
+            _context.SaveChanges();
         }
 
         public void UpdateOrderDetailPrice(int orderDetailId, int count, string userName)

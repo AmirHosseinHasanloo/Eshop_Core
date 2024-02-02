@@ -11,9 +11,11 @@ namespace Core.Services.Interfaces
         bool IsTrueHashedPassword(string password);
         bool IsActiveUser(string email);
         void AddUser(User user);
+        void EditUser(User user);
         User GetUserForLogin(string email, string password); 
         User GetUserForActiveAccount(string activecode);
         User GetUserForgotPassword(string email);
+        User GetUserByUserName(string userName);
         void Save();
     }
 }

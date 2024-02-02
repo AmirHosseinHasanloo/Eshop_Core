@@ -4,6 +4,19 @@
 }
 @if (Model.Any())
 {
+    @if (ViewBag.IsSuccess != null)
+    {
+        <div class="col-md-12 col-xs-12 col-lg-12 col-xl-12 col-sm-12">
+            <div class="alert alert-success text-center">
+                <p>
+                    کاربر گرامی اطلاعات شما با موفقیت ثبت شد میتوانید روی پذیرفتن و ادامه خرید کلیک کنید.
+                </p>
+            </div>
+        </div>
+        <br />
+        <br />
+    }
+
     <div class="container baskets-style margin-top-20" id="PaymentBasket">
 
         <div class="row basket-style">
@@ -59,7 +72,7 @@
                         <li class="total-price"> مبلغ قابل پرداخت : <span> @Model.Sum(o => o.EndPrice).ToString("#,0") تومان </span></li>
                     </ul>
                 </div>
-                <button type="button" class="border-radius submit-basket-button"> پذیرفتن و ادامه خرید </button>
+                <a href="/Payment/@ViewBag.OrderId" type="button" class="border-radius submit-basket-button"> پذیرفتن و ادامه خرید </a>
                 <div class="clearfix"></div>
             </section>
         </div>
@@ -69,6 +82,5 @@
 }
 
 @section Scripts {
-    <script src="/js/paymentbasket.js"></script>
-  
+    <script src="/js/PaymentBasket.js"></script>
 }

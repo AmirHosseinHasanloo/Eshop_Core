@@ -1,0 +1,44 @@
+﻿@model DataLayer.Entities.User
+@{
+    ViewData["Title"] = "تکمیل اطلاعات برای ادامه خرید";
+}
+
+<div class="col-md-9 col-sm-8 left-side-content internal-style">
+
+    <section class="border-radius">
+        <header><h3> تکمیل اطلاعات برای ادامه خرید </h3></header>
+        <article>
+            <div class="col-md-10 col-sm-10 col-xs-12">
+
+                <form method="post" action="CompleteUserIdentity">
+                    <input type="hidden" asp-for="UserId" />
+                    <input type="hidden" asp-for="RoleId" />
+                    <input type="hidden" asp-for="UserName" />
+                    <input type="hidden" asp-for="Password" />
+                    <input type="hidden" asp-for="UserId" />
+                    <input type="hidden" asp-for="RegisterDate" />
+                    <input type="hidden" asp-for="ActiveCode" />
+                    <input type="hidden" asp-for="IsActive" />
+                    <input type="hidden" asp-for="Email" />
+                    <div class="form-group">
+                        <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="شماره همراه ">
+                    </div>
+                    <div class="form-group">
+                        <textarea asp-for="location" style="width:60%" class="form-control" placeholder="آدرس محل تحویل کالا به شما"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="NationalityCode" type="text" class="form-control" placeholder="کد ملی">
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="PostCode" type="text" class="form-control" placeholder="کد پستی ">
+                    </div>
+                    <input type="submit" value=" تایید اطلاعات">
+                </form>
+
+            </div>
+            <div class="clearfix"></div>
+        </article>
+    </section>
+
+</div>
+
