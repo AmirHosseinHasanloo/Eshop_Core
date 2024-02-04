@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Globalization;
 using System;
 using System.Reflection.Metadata.Ecma335;
+using Eshop_Core.RoleChecker;
 
 namespace Eshop_Core.Pages.Admin.Slider
 {
+    [RoleChecker(new int[] { 1 })]
     public class CreateModel : PageModel
     {
 

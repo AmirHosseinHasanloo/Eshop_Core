@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Core.Services.Interfaces;
 using DataLayer.Entities;
+using Eshop_Core.RoleChecker;
 
 namespace Eshop_Core.Pages.Admin.Features
 {
+    [RoleChecker(new int[] { 1 })]
     public class DeleteFeatureModel : PageModel
     {
         private IFeaturesService _feature;

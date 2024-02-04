@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Eshop_Core.Pages.Admin
 {
-    [RoleChecker(1)]
+    [RoleChecker(new int[] { 1, 2 })]
     public class IndexModel : PageModel
     {
         public void OnGet()

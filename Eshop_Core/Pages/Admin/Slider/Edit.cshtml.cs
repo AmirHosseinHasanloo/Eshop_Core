@@ -1,5 +1,6 @@
 using Core.Convertors;
 using Core.Services.Interfaces;
+using Eshop_Core.RoleChecker;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,6 +9,7 @@ using System.Globalization;
 
 namespace Eshop_Core.Pages.Admin.Slider
 {
+    [RoleChecker(new int[] { 1 })]
     public class EditModel : PageModel
     {
         private ISliderService _sliderService;

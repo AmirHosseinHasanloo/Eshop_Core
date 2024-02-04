@@ -8,19 +8,19 @@ namespace Eshop_Core.RoleChecker
 {
     public class RoleCheckerAttribute : Attribute, IAuthorizationFilter
     {
-        private int _roleId = 0;
+        private int[] _roleId = null;
         private EshopContext _context;
 
-        public RoleCheckerAttribute(int roleId)
+        public RoleCheckerAttribute(int[] roleId)
         {
             _roleId = roleId;
         }
 
-        public bool RoleChecker(int roleId, string userName)
+        public bool RoleChecker(int[] roleId, string userName)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserName == userName);
 
-            if (user != null && user.RoleId == roleId)
+            if (user != null && roleId.Any(roleId => roleId == user.RoleId))
             {
                 return true;
             }

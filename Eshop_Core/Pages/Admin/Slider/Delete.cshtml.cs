@@ -1,9 +1,11 @@
 using Core.Services.Interfaces;
+using Eshop_Core.RoleChecker;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Eshop_Core.Pages.Admin.Slider
 {
+    [RoleChecker(new int[] { 1 })]
     public class DeleteModel : PageModel
     {
 

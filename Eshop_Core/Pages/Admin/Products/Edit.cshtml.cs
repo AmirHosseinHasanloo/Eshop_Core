@@ -1,5 +1,6 @@
 using Core.Services.Interfaces;
 using DataLayer.Entities;
+using Eshop_Core.RoleChecker;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 
 namespace Eshop_Core.Pages.Admin.Products
 {
+    [RoleChecker(new int[] { 1, 2 })]
     public class EditModel : PageModel
     {
         #region Injection
