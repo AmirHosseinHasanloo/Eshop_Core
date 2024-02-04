@@ -1,6 +1,18 @@
 ﻿@page
 @model Eshop_Core.Pages.Admin.IndexModel
 @{
+    ViewData["Title"] = "پنل ادمین";
 }
 
-<h1>صفحه اصلی</h1>
+<div class="col-md-12 col-sm-12 col-xs-12 container">
+    <br />
+    <div class="alert alert-info text-center">
+        <p>
+            کاربر گرامی @User.Identity.Name به پنل مدیریت خوش آمدید
+        </p>
+        <br />
+        <p>
+            برای دسترسی به بخش مورد نظر میتوانید از پنل سمت راست اقدام فرمایید.
+        </p>
+    </div>
+</div>

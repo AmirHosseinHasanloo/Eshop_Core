@@ -22,6 +22,10 @@ namespace DataLayer.Entities
         [Required]
         public bool IsFainaly { get; set; }
 
+        [Display(Name = "آیا فاکتور ارسال شده؟")]
+        [Required]
+        public bool IsSend { get; set; } = false;
+
         [Display(Name = "تاریخ ایجاد")]
         public DateTime CreateTime { get; set; }
 

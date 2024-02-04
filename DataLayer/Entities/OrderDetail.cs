@@ -30,7 +30,6 @@ namespace DataLayer.Entities
         [Required]
         public int EndPrice { get; set; }
 
-
         #region Relations
         public Product Product { get; set; }
         public Order Orders { get; set; }

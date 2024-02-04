@@ -1,6 +1,7 @@
 ﻿using Core.Services.Interfaces;
 using DataLayer;
 using DataLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,8 @@ namespace Core.Services.Interfaces
         {
             return _context.Users.Any(u => u.Password == password);
         }
+
+       
 
         public void Save()
         {
