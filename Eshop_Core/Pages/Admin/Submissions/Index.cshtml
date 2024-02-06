@@ -1,0 +1,67 @@
+﻿@page
+@model Eshop_Core.Pages.Admin.Submissions.IndexModel
+@{
+    ViewData["Title"] = "محموله های ارسالی";
+}
+
+
+<div class="clearfix"></div>
+<br />
+<p>
+    <a class="btn btn-success" href="Slider/Create">افزودن اسلاید</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                گیرنده
+            </th>
+            <th>
+                جمع فاکتور
+            </th>
+            <th>
+                آدرس
+            </th>
+            <th>
+                ارسال شده؟
+            </th>
+            <th>
+                جزئیات اصلی
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.order)
+        {
+            <tr>
+                <td>
+                    @item.Customer
+                </td>
+                <td>
+                    @item.OrderSum.ToString("#,0")
+                </td>
+                <td>
+                    @item.location
+                </td>
+                <td>
+                    @if (item.IsSend)
+                    {
+                        <p class="text-success">
+                            بله
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="text-danger">
+                            خیر
+                        </p>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-info" href="/Admin/Submissions/Detail/@item.OrderId">جزئیات فاکتور</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

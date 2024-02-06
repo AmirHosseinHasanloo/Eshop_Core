@@ -58,6 +58,8 @@ namespace Eshop_Core
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ISliderService, SliderService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ISubmissionsService, SubmissionsService>();
+
 
             services.AddTransient<IViewRenderService, RenderViewToString>();
 

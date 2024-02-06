@@ -1,0 +1,73 @@
+﻿@page "{id}"
+@model Eshop_Core.Pages.Admin.Submissions.DetailModel
+@{
+    ViewData["Title"] = "اطلاعات دقیق فاکتور";
+}
+
+<div id="Submission">
+    <div class="clearfix"></div>
+    <br />
+    <div class="row col-md-12 col-sm-12 col-xs-12 col-xl-12">
+        <a class="btn-sm btn-success" onclick="IsSend(@ViewData["OrderId"])"> ارسال شد </a>
+    </div>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    محصول
+                </th>
+                <th>
+                    تصویر
+                </th>
+                <th>
+                    قیمت واحد
+                </th>
+                <th>
+                    تعداد
+                </th>
+                <th>
+                    قیمت به تعداد
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetails)
+            {
+                <tr>
+                    <td>
+                        @item.Product.Title
+                    </td>
+                    <td>
+                        <img width="120" height="120" class="img-responsive img-thumbnail" src="/ProductImage/@item.Product.ImageName" />
+                    </td>
+                    <td>
+                        @item.Price.ToString("#,0")
+                    </td>
+
+                    <td>
+                        @item.Count
+                    </td>
+                    <td>
+                        @item.EndPrice.ToString("#,0")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts {
+    <script>
+        function IsSend(id) {
+            $.ajax({
+                url: "/Admin/Submissions/IsSend/" + id,
+                type: "Get",
+                data: { send: true }
+            }).done(function () {
+                $("#Submission").fadeOut("slow");
+                $("#Submission").load("/Admin/Submissions");
+                $("#Submission").fadeIn("slow");
+            });
+        }
+    </script>
+}
